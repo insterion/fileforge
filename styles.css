@@ -17,3 +17,33 @@
 .diagnostics{display:grid;gap:9px}.diagnostics>div{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;background:var(--surface2);border-radius:9px;font-size:12px}.diagnostics strong{color:var(--accent);white-space:nowrap}
 .help-note{font-size:12px;line-height:1.65;color:var(--muted);margin:15px 0 0}
 @media(max-width:760px){.install-card{flex-wrap:wrap;padding:13px;gap:10px}.install-description{flex-basis:calc(100% - 52px)}.install-action{margin-left:50px;flex:1}.install-settings{padding:15px}.install-settings-head{align-items:flex-start;flex-direction:column}.install-settings-head .primary-button{width:100%}}
+
+/* FileForge 0.3 — PDF Studio */
+.pdf-home-cta{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:18px;padding:17px 19px;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.pdf-home-cta strong{font-size:15px}.pdf-home-cta p{font-size:12px;color:var(--muted);margin:4px 0 0}
+.pdf-tabs{display:flex;overflow-x:auto;gap:7px;padding:5px;background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:17px;scrollbar-width:thin}
+.pdf-tab{flex:1 0 auto;border:0;border-radius:10px;color:var(--muted);background:transparent;padding:11px 13px;font-size:12px;font-weight:750;white-space:nowrap}
+.pdf-tab.active{background:var(--surface3);color:var(--accent);box-shadow:inset 0 -2px var(--accent)}
+.pdf-workspace{display:grid;gap:15px;max-width:940px}
+.pdf-panel,.pdf-results{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+.pdf-panel h3,.pdf-results h3{margin:0 0 5px;font-size:19px}
+.pdf-help,.pdf-limits{font-size:12px;line-height:1.6;color:var(--muted);margin:4px 0 16px}
+.pdf-limits{margin:0}
+.pdf-add{margin:8px 0 17px;width:100%;border-style:dashed;min-height:51px;font-size:14px}
+.pdf-size{max-width:350px}
+.pdf-items,.pdf-pages{display:grid;gap:9px;margin:15px 0 20px}
+.pdf-item{display:flex;gap:12px;align-items:center;min-width:0;background:var(--surface2);border:1px solid var(--line);border-radius:13px;padding:10px 12px}
+.pdf-item-icon{width:38px;min-width:38px;height:44px;border-radius:9px;display:grid;place-items:center;background:var(--surface3);font-size:20px}
+.pdf-item-main{display:grid;gap:2px;min-width:0;flex:1}.pdf-item-main strong{font-size:12px;overflow-wrap:anywhere}.pdf-item-main small{font-size:11px;color:var(--muted)}
+.pdf-item-actions{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.pdf-small-button{min-width:33px;min-height:36px;padding:5px 7px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font-size:18px;font-weight:700;line-height:1}
+.pdf-small-button:not(:disabled):hover{border-color:var(--accent);color:var(--accent)}
+.pdf-pages{grid-template-columns:repeat(2,minmax(0,1fr))}.pdf-pages .pdf-item{align-items:flex-start}.pdf-pages .pdf-item-actions{max-width:128px}
+.pdf-empty{background:var(--surface2);border:1px dashed var(--line);border-radius:12px;padding:24px;text-align:center;font-size:12px;color:var(--muted)}
+.pdf-file-caption{font-size:12px;word-break:break-word;color:var(--muted);margin:0 0 10px}
+.pdf-status{margin:0;font-size:13px;color:var(--accent);line-height:1.55;min-height:1.2em;overflow-wrap:anywhere}
+.pdf-status.danger{color:#ff9d9d}
+.pdf-split-options{max-width:580px}.pdf-split-options input{width:100%;min-height:47px;border-radius:10px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);padding:12px}
+.pdf-rule{text-align:center;margin:20px 0;color:var(--muted);font-size:11px;font-weight:800}
+.pdf-results{border-color:var(--accent)}.pdf-downloads{display:grid;gap:9px;margin:15px 0}.pdf-downloads .download-button{margin:0;font-size:12px;overflow-wrap:anywhere;white-space:normal;text-align:center}
+@media(max-width:760px){.pdf-panel,.pdf-results{padding:16px}.pdf-item{flex-wrap:wrap;gap:8px}.pdf-item-main{flex:1 1 calc(100% - 60px)}.pdf-item-actions{margin-left:50px;width:calc(100% - 50px);justify-content:flex-start}.pdf-pages{grid-template-columns:1fr}.pdf-pages .pdf-item-actions{max-width:none}.pdf-home-cta{flex-direction:column;align-items:flex-start}.pdf-home-cta button{width:100%}.pdf-small-button{min-height:38px;min-width:39px}}

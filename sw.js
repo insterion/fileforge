@@ -1,13 +1,18 @@
-// FileForge 0.2.0 — cache only the app shell, never user photos.
-const CACHE = 'fileforge-shell-0.2.0';
+// FileForge 0.3.0 — cache the application shell and a fixed PDF library dependency.
+// User files are never fetched, intercepted, or cached by this Service Worker.
+const CACHE = 'fileforge-shell-0.3.0';
 const FILES = [
-  './', './index.html', './styles.css', './app.js',
+  './', './index.html', './styles.css', './app.js', './pdf-studio.js',
   './manifest.webmanifest', './icon-192.png', './icon-512.png'
 ];
+const PDF_LIB = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
     await cache.addAll(FILES);
+    // The optional PDF library is downloaded only when PDF Studio is used.
+    // This keeps PWA installation independent from external CDN availability.
     await self.skipWaiting();
   })());
 });
@@ -22,6 +27,19 @@ self.addEventListener('fetch', (event) => {
   const request = event.request;
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
+  if (url.href === PDF_LIB) {
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE);
+      const hit=await cache.match(PDF_LIB);
+      if (hit) return hit;
+      try {
+        const response=await fetch(request);
+        if(response)await cache.put(PDF_LIB,response.clone());
+        return response;
+      }catch(e){return Response.error();}
+    })());
+    return;
+  }
   if (url.origin !== self.location.origin || !url.pathname.startsWith(new URL(self.registration.scope).pathname)) return;
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);

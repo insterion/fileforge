@@ -2,7 +2,7 @@
   "id": "./",
   "name": "FileForge - File Toolkit",
   "short_name": "FileForge",
-  "description": "Local-first image studio with adjustments and offline support.",
+  "description": "Local-first Image and PDF Studio: convert pictures, merge, split and organize PDFs.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -25,6 +25,7 @@
   "categories": [
     "productivity",
     "utilities",
-    "photo"
+    "photo",
+    "books"
   ]
 }

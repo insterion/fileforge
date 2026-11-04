@@ -4,22 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0a111b">
-  <meta name="description" content="FileForge — личен инструмент за обработка на снимки директно на устройството.">
+  <meta name="description" content="FileForge — локална обработка на снимки и PDF файлове директно на устройството.">
   <meta name="color-scheme" content="dark light">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest?v=0.2.0">
-  <link rel="stylesheet" href="./styles.css?v=0.2.0">
-  <title>FileForge 0.2</title>
-  <script src="./app.js?v=0.2.0" defer></script>
+  <link rel="manifest" href="./manifest.webmanifest?v=0.3.0">
+  <link rel="stylesheet" href="./styles.css?v=0.3.0">
+  <title>FileForge 0.3</title>
+  <script src="./app.js?v=0.3.0" defer></script>
+  <script src="./pdf-studio.js?v=0.3.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigation">
-      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.2</small></span></div>
+      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.3</small></span></div>
       <div class="side-label" data-i18n="workspace">РАБОТНО ПРОСТРАНСТВО</div>
       <nav class="side-nav" aria-label="Main">
         <button class="nav-button active" data-nav="home"><span class="nav-emoji">⌂</span><span data-i18n="navHome">Начало</span></button>
@@ -65,6 +66,7 @@
           <button class="tool-card" data-action="pick"><span class="tool-icon violet">⤢</span><strong data-i18n="resize">Преоразмеряване</strong><small data-i18n="changeResolution">Промени резолюцията</small><span class="card-arrow">↗</span></button>
           <button class="tool-card" data-action="pick"><span class="tool-icon coral">◩</span><strong data-i18n="cropRotate">Изрязване и завъртане</strong><small>Crop · Rotate</small><span class="card-arrow">↗</span></button>
         </div>
+        <div class="pdf-home-cta"><div><strong data-pdf-i18n="pdfCardTitle">📄 PDF Studio вече е тук</strong><p data-pdf-i18n="pdfCardDesc">Снимки в PDF · Обединяване · Извличане · Разделяне · Подреждане</p></div><button type="button" class="secondary-button" id="pdfOpenHome" data-pdf-i18n="openPdfStudio">Отвори PDF Studio →</button></div>
         <div class="info-banner"><span class="info-icon">✦</span><div><strong data-i18n="privateHeading">Личните файлове остават при теб</strong><p data-i18n="privateDesc">Обработката става в браузъра. Историята пази само имена и информация, не копия на снимките.</p></div></div>
       </section>
 
@@ -72,7 +74,7 @@
         <div class="section-heading"><div><h2 data-i18n="allTools">Всички инструменти</h2><p data-i18n="availableNow">Активните инструменти са отбелязани. Останалите предстоят.</p></div></div>
         <div class="module-grid">
           <button class="module-card ready" data-action="pick"><span class="module-symbol">🖼️</span><span class="module-body"><strong data-i18n="imagesStudio">Снимки</strong><small data-i18n="imagesDescription">Convert, Compress, Resize, Crop, Rotate, Adjust</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
-          <div class="module-card disabled"><span class="module-symbol">📄</span><span class="module-body"><strong>PDF Studio</strong><small>Merge · Split · Images to PDF</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
+          <button class="module-card ready" type="button" id="pdfOpenTools"><span class="module-symbol">📄</span><span class="module-body"><strong>PDF Studio</strong><small>Images to PDF · Merge · Split · Organise</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <div class="module-card disabled"><span class="module-symbol">🎵</span><span class="module-body"><strong>Audio Studio</strong><small>Trim · Convert · Join</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
           <div class="module-card disabled"><span class="module-symbol">🎬</span><span class="module-body"><strong>Video Studio</strong><small>Trim · Frames · Compress</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
           <div class="module-card disabled"><span class="module-symbol">🗜️</span><span class="module-body"><strong>Archives</strong><small>ZIP · Extract</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
@@ -107,6 +109,56 @@
         </div>
       </section>
 
+      <section class="page" id="page-pdf" hidden>
+        <div class="editor-head"><div><span class="eyebrow">PDF STUDIO</span><h2 data-pdf-i18n="pdfStudioTitle">PDF инструменти</h2><p data-pdf-i18n="pdfStudioIntro">Обработвай PDF и снимки на устройството, без да качваш файловете.</p></div><button type="button" class="secondary-button" id="pdfResetAll" data-pdf-i18n="pdfNew">Ново</button></div>
+        <div class="pdf-tabs" role="tablist" aria-label="PDF tools">
+          <button type="button" class="pdf-tab active" data-pdf-tab="images" role="tab" aria-selected="true" data-pdf-i18n="tabImages">Снимки → PDF</button>
+          <button type="button" class="pdf-tab" data-pdf-tab="merge" role="tab" aria-selected="false" data-pdf-i18n="tabMerge">Обедини</button>
+          <button type="button" class="pdf-tab" data-pdf-tab="organize" role="tab" aria-selected="false" data-pdf-i18n="tabOrganize">Страници</button>
+          <button type="button" class="pdf-tab" data-pdf-tab="split" role="tab" aria-selected="false" data-pdf-i18n="tabSplit">Раздели</button>
+        </div>
+        <div class="pdf-workspace">
+          <section class="pdf-panel" id="pdfModeImages">
+            <h3 data-pdf-i18n="imagesHeading">Създай PDF от снимки</h3><p class="pdf-help" data-pdf-i18n="imagesHelp">Добави JPG, PNG или WEBP. Подреди снимките с бутоните ↑ ↓ и избери размер на страницата.</p>
+            <button type="button" class="secondary-button pdf-add" id="pdfAddImages" data-pdf-i18n="addImages">＋ Добави снимки</button>
+            <label class="field pdf-size"><span data-pdf-i18n="pageSize">Размер на страницата</span><select id="pdfPageSize"><option value="a4">A4 — Portrait</option><option value="a4-landscape">A4 — Landscape</option><option value="original" data-pdf-i18n="naturalSize">Размер на снимката</option></select></label>
+            <div id="pdfImageList" class="pdf-items" aria-live="polite"></div>
+            <button type="button" id="pdfCreateImages" class="primary-button full" data-pdf-i18n="makeImagePdf">Създай PDF</button>
+          </section>
+          <section class="pdf-panel" id="pdfModeMerge" hidden>
+            <h3 data-pdf-i18n="mergeHeading">Обедини PDF файлове</h3><p class="pdf-help" data-pdf-i18n="mergeHelp">Добави поне два PDF файла. Можеш да промениш реда преди обединяване.</p>
+            <button type="button" class="secondary-button pdf-add" id="pdfAddMerge" data-pdf-i18n="addPdfs">＋ Добави PDF файлове</button>
+            <div id="pdfMergeList" class="pdf-items" aria-live="polite"></div>
+            <button type="button" id="pdfCreateMerge" class="primary-button full" data-pdf-i18n="mergePdfs">Обедини PDF файловете</button>
+          </section>
+          <section class="pdf-panel" id="pdfModeOrganize" hidden>
+            <h3 data-pdf-i18n="organizeHeading">Подреди PDF страниците</h3><p class="pdf-help" data-pdf-i18n="organizeHelp">Зареди един PDF. Премествай, завъртай и премахвай страници, без да променяш оригинала.</p>
+            <button type="button" class="secondary-button pdf-add" id="pdfChooseOrganize" data-pdf-i18n="choosePdf">＋ Избери PDF</button>
+            <p id="pdfOrganizeName" class="pdf-file-caption"></p>
+            <div id="pdfOrganizeList" class="pdf-pages" aria-live="polite"></div>
+            <button type="button" id="pdfCreateOrganize" class="primary-button full" data-pdf-i18n="saveOrganized">Запази нов PDF</button>
+          </section>
+          <section class="pdf-panel" id="pdfModeSplit" hidden>
+            <h3 data-pdf-i18n="splitHeading">Раздели или извлечи страници</h3><p class="pdf-help" data-pdf-i18n="splitHelp">Зареди PDF и избери: извличане на определени страници или разделяне на две части.</p>
+            <button type="button" class="secondary-button pdf-add" id="pdfChooseSplit" data-pdf-i18n="choosePdf">＋ Избери PDF</button>
+            <p id="pdfSplitName" class="pdf-file-caption"></p>
+            <div class="pdf-split-options">
+              <label class="field"><span data-pdf-i18n="pageRange">Страници за извличане (напр. 1-3,5)</span><input id="pdfRange" type="text" placeholder="1-3,5" inputmode="text"></label>
+              <button type="button" id="pdfExtract" class="secondary-button full" data-pdf-i18n="extractPages">Извлечи посочените страници</button>
+              <div class="pdf-rule"><span data-pdf-i18n="orDivide">ИЛИ</span></div>
+              <label class="field"><span data-pdf-i18n="splitAfter">Раздели след страница №</span><input id="pdfSplitAfter" type="number" inputmode="numeric" min="1" step="1" value="1"></label>
+              <button type="button" id="pdfDivide" class="primary-button full" data-pdf-i18n="dividePdf">Раздели на две части</button>
+            </div>
+          </section>
+          <div class="pdf-results" id="pdfResults" hidden>
+            <h3 data-pdf-i18n="pdfReady">Готови файлове</h3><div id="pdfDownloads" class="pdf-downloads"></div><p class="pdf-help" data-pdf-i18n="downloadReminder">Докосни всеки бутон, за да запазиш готовия файл. Оригиналите не са променени.</p>
+          </div>
+          <p id="pdfStatus" class="pdf-status" role="status" aria-live="polite"></p>
+          <p class="pdf-limits" data-pdf-i18n="pdfLimits">Лимит: до 20 MB на файл, общо 50 MB и до 120 PDF страници. Защитени с парола PDF файлове не се поддържат.</p>
+          <p class="pdf-limits" data-pdf-i18n="pdfExternalNote">PDF библиотеката се зарежда онлайн при първото отваряне; след кеширане е възможна и offline работа.</p>
+        </div>
+      </section>
+
       <section class="page" id="page-history" hidden>
         <div class="section-heading"><div><h2 data-i18n="historyTitle">Последни операции</h2><p data-i18n="historyDesc">История само с метаданни на това устройство.</p></div><button class="secondary-button" id="clearHistory" type="button" data-i18n="clearHistory">Изчисти историята</button></div>
         <div id="historyList" class="history-list"></div><div id="emptyHistory" class="empty-state"><span>◷</span><h3 data-i18n="emptyHistoryTitle">Все още няма история</h3><p data-i18n="emptyHistoryDesc">След първата обработка тя ще се появи тук.</p></div>
@@ -117,7 +169,7 @@
         <div class="settings-list"><label class="setting-row"><div><strong data-i18n="appearance">Външен вид</strong><small data-i18n="appearanceDesc">Избирай между светла, тъмна и системна тема</small></div><select id="themeSetting"><option value="system" data-i18n="system">Системна</option><option value="dark" data-i18n="dark">Тъмна</option><option value="light" data-i18n="light">Светла</option></select></label>
         <label class="setting-row"><div><strong data-i18n="language">Език</strong><small data-i18n="languageDesc">Език на интерфейса</small></div><select id="languageSetting"><option value="bg">Български</option><option value="en">English</option></select></label>
         <div class="setting-row"><div><strong data-i18n="privacy">Поверителност</strong><small data-i18n="privacySettings">Снимките се обработват локално. Историята е само на това устройство.</small></div><span class="status-tag ready">LOCAL</span></div>
-        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.2.0 · PWA</small></div><span>0.2.0</span></div></div>
+        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.3.0 · PWA</small></div><span>0.3.0</span></div></div>
         <section class="install-settings">
           <div class="install-settings-head"><div><h3 data-i18n="pwaSettingsTitle">PWA инсталация</h3><p data-i18n="pwaSettingsDesc">Проверка на условията и инструкции за Android Chrome.</p></div><button id="installSettingsButton" class="primary-button" type="button" data-i18n="installButton">Инсталирай</button></div>
           <p id="installStatus" class="install-status" aria-live="polite"></p>
@@ -125,7 +177,7 @@
           <p class="help-note" data-i18n="installInstructions">Отвори точния https://...github.io/fileforge/ адрес в Chrome (не в GitHub или ChatGPT). После ⋮ → Add to Home screen → Install app. Ако пише Add shortcut, това не е същото като WebAPK.</p>
         </section>
       </section>
-      <footer class="footer">FileForge 0.2 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
+      <footer class="footer">FileForge 0.3 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
     </main>
 
     <nav class="bottom-nav" aria-label="Mobile navigation">
@@ -135,6 +187,10 @@
       <button class="mobile-nav" data-nav="settings"><span>⚙</span><small data-i18n="navSettings">Настройки</small></button>
     </nav>
   </div>
+  <input id="pdfInputImages" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden>
+  <input id="pdfInputMerge" type="file" accept="application/pdf,.pdf" multiple hidden>
+  <input id="pdfInputOrganize" type="file" accept="application/pdf,.pdf" hidden>
+  <input id="pdfInputSplit" type="file" accept="application/pdf,.pdf" hidden>
   <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden>
 </body>
 </html>
