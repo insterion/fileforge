@@ -2,7 +2,7 @@
   "id": "./",
   "name": "FileForge - File Toolkit",
   "short_name": "FileForge",
-  "description": "Local-first Image, PDF and ZIP toolkit: edit photos, organize PDFs, create and extract ZIP files.",
+  "description": "Local-first image, batch, PDF and ZIP tools with favourites and metadata-only history.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

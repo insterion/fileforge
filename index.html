@@ -11,18 +11,20 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest?v=0.4.0">
-  <link rel="stylesheet" href="./styles.css?v=0.4.0">
-  <title>FileForge 0.4</title>
-  <script src="./app.js?v=0.4.0" defer></script>
-  <script src="./pdf-studio.js?v=0.4.0" defer></script>
-  <script src="./jszip.min.js?v=0.4.0" defer></script>
-  <script src="./archive-studio.js?v=0.4.0" defer></script>
+  <link rel="manifest" href="./manifest.webmanifest?v=0.5.0">
+  <link rel="stylesheet" href="./styles.css?v=0.5.0">
+  <title>FileForge 0.5</title>
+  <script src="./app.js?v=0.5.0" defer></script>
+  <script src="./pdf-studio.js?v=0.5.0" defer></script>
+  <script src="./jszip.min.js?v=0.5.0" defer></script>
+  <script src="./archive-studio.js?v=0.5.0" defer></script>
+  <script src="./library.js?v=0.5.0" defer></script>
+  <script src="./batch-studio.js?v=0.5.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigation">
-      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.4</small></span></div>
+      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.5</small></span></div>
       <div class="side-label" data-i18n="workspace">РАБОТНО ПРОСТРАНСТВО</div>
       <nav class="side-nav" aria-label="Main">
         <button class="nav-button active" data-nav="home"><span class="nav-emoji">⌂</span><span data-i18n="navHome">Начало</span></button>
@@ -70,6 +72,8 @@
         </div>
         <div class="pdf-home-cta"><div><strong data-pdf-i18n="pdfCardTitle">📄 PDF Studio вече е тук</strong><p data-pdf-i18n="pdfCardDesc">Снимки в PDF · Обединяване · Извличане · Разделяне · Подреждане</p></div><button type="button" class="secondary-button" id="pdfOpenHome" data-pdf-i18n="openPdfStudio">Отвори PDF Studio →</button></div>
         <div class="pdf-home-cta"><div><strong data-archive-i18n="archiveCardTitle">🗜️ ZIP & Archives</strong><p data-archive-i18n="archiveCardDesc">Създай ZIP · Отвори архив · Извлечи файлове</p></div><button type="button" class="secondary-button" id="archiveOpenHome" data-archive-i18n="archiveOpenButton">Отвори Archives →</button></div>
+        <div class="pdf-home-cta ff-batch-cta"><div><strong data-ff-i18n="batchCta">✨ Batch Images — много снимки наведнъж</strong><p data-ff-i18n="batchCtaDesc">Конвертирай до 12 снимки с едни настройки и изтегли ZIP.</p></div><button type="button" class="secondary-button" id="batchOpenHome" data-ff-i18n="openBatch">Отвори Batch →</button></div>
+        <section class="ff-favorites"><div class="section-heading ff-no-top"><div><h3 data-ff-i18n="favorites">☆ Любими инструменти</h3><p data-ff-i18n="favoritesHelp">Докосни звездата, за да добавиш или махнеш инструмент.</p></div></div><div id="favoriteTools" class="ff-favorite-grid"></div></section>
         <div class="info-banner"><span class="info-icon">✦</span><div><strong data-i18n="privateHeading">Личните файлове остават при теб</strong><p data-i18n="privateDesc">Обработката става в браузъра. Историята пази само имена и информация, не копия на снимките.</p></div></div>
       </section>
 
@@ -80,6 +84,7 @@
           <button class="module-card ready" type="button" id="pdfOpenTools"><span class="module-symbol">📄</span><span class="module-body"><strong>PDF Studio</strong><small>Images to PDF · Merge · Split · Organise</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <div class="module-card disabled"><span class="module-symbol">🎵</span><span class="module-body"><strong>Audio Studio</strong><small>Trim · Convert · Join</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
           <div class="module-card disabled"><span class="module-symbol">🎬</span><span class="module-body"><strong>Video Studio</strong><small>Trim · Frames · Compress</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
+          <button class="module-card ready" type="button" id="batchOpenTools"><span class="module-symbol">✨</span><span class="module-body"><strong data-ff-i18n="batchTitle">Batch Images</strong><small data-ff-i18n="batchSummary">Множество снимки → един ZIP</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="archiveOpenTools"><span class="module-symbol">🗜️</span><span class="module-body"><strong data-archive-i18n="archiveName">ZIP & Archives</strong><small data-archive-i18n="archiveToolDesc">Създай ZIP · Отвори · Извлечи</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <div class="module-card disabled"><span class="module-symbol">⬇️</span><span class="module-body"><strong>Downloads</strong><small>Direct links · Share</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
         </div>
@@ -197,8 +202,41 @@
         </div>
       </section>
 
+      <section class="page" id="page-batch" hidden>
+        <div class="editor-head"><div><span class="eyebrow">BATCH STUDIO</span><h2 data-ff-i18n="batchTitle">Batch Images</h2><p data-ff-i18n="batchIntro">Еднакви настройки за множество снимки. Резултатът е ZIP файл.</p></div><button type="button" class="secondary-button" id="batchReset" data-ff-i18n="newBatch">Ново</button></div>
+        <div class="ff-batch-layout">
+          <section class="pdf-panel">
+            <h3 data-ff-i18n="batchChooseTitle">1. Избери снимки</h3>
+            <p class="pdf-help" data-ff-i18n="batchChooseHelp">JPG, PNG или WEBP, до 12 файла (20 MB на файл, 60 MB общо).</p>
+            <button id="batchPick" type="button" class="secondary-button pdf-add" data-ff-i18n="batchChoose">＋ Добави снимки</button>
+            <div id="batchFileList" class="pdf-items" aria-live="polite"></div>
+            <span class="pdf-help" id="batchFileCount"></span>
+            <h3 data-ff-i18n="batchSettingsTitle">2. Общи настройки</h3>
+            <div class="ff-batch-fields">
+              <label class="field"><span data-ff-i18n="batchFormatLabel">Изходен формат</span><select id="batchFormat"><option value="same" data-ff-i18n="batchKeepFormat">Запази оригиналния формат</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WEBP</option></select></label>
+              <label class="field"><span data-ff-i18n="batchSizeLabel">Максимална дълга страна</span><select id="batchSize"><option value="1280">1280 px</option><option value="1920" selected>1920 px</option><option value="2560">2560 px</option><option value="0" data-ff-i18n="batchOriginalSize">Без ограничение</option></select></label>
+              <label class="field"><span data-ff-i18n="batchCropLabel">Централно изрязване</span><select id="batchCrop"><option value="none" data-ff-i18n="batchNoCrop">Без изрязване</option><option value="1">1:1</option><option value="1.3333333333">4:3</option><option value="1.7777777778">16:9</option></select></label>
+              <label class="field"><span data-ff-i18n="batchRotateLabel">Завъртане</span><select id="batchRotation"><option value="0">0°</option><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select></label>
+              <label class="field"><span><span data-ff-i18n="batchQualityLabel">Качество JPG / WEBP</span><output id="batchQualityValue">82%</output></span><input type="range" id="batchQuality" min="40" max="100" value="82"></label>
+              <label class="ff-batch-toggle"><input id="batchGray" type="checkbox"><span data-ff-i18n="batchGrayLabel">Черно-бяло</span></label>
+            </div>
+            <div class="ff-preset-actions"><button type="button" id="batchSavePreset" class="secondary-button" data-ff-i18n="savePreset">☆ Запази настройките</button><button type="button" id="batchLoadPreset" class="secondary-button" data-ff-i18n="loadPreset">↺ Зареди запазените</button></div>
+            <button type="button" id="batchProcess" class="primary-button full" data-ff-i18n="batchProcess">3. Обработи и създай ZIP</button>
+            <p class="ff-progress" id="batchStatus" role="status" aria-live="polite"></p>
+            <progress id="batchProgress" class="ff-progressbar" max="100" value="0" hidden></progress>
+          </section>
+          <section class="pdf-results" id="batchResults" hidden><h3 data-ff-i18n="batchReady">Готов архив</h3><p id="batchSummaryText" class="pdf-help"></p><a id="batchDownload" class="download-button" download data-ff-i18n="batchDownload">↓ Изтегли ZIP с резултатите</a><p class="pdf-help" data-ff-i18n="batchDownloadHint">ZIP съдържа новите снимки, оригиналите не са променени. Файловете не се съхраняват в историята.</p></section>
+        </div>
+      </section>
+
       <section class="page" id="page-history" hidden>
         <div class="section-heading"><div><h2 data-i18n="historyTitle">Последни операции</h2><p data-i18n="historyDesc">История само с метаданни на това устройство.</p></div><button class="secondary-button" id="clearHistory" type="button" data-i18n="clearHistory">Изчисти историята</button></div>
+        <div class="ff-history-controls">
+          <input id="historySearch" type="search" data-ff-placeholder="historySearch" placeholder="Търси по име..." aria-label="Search history">
+          <select id="historyFilter" aria-label="Filter history"><option value="all" data-ff-i18n="filterAll">Всички</option><option value="image" data-ff-i18n="filterImage">Снимки</option><option value="pdf">PDF</option><option value="zip">ZIP</option><option value="batch">Batch</option></select>
+        </div>
+        <div class="ff-backup-actions"><button id="historyBackup" type="button" class="secondary-button" data-ff-i18n="exportBackup">↓ Export History & Favorites</button><button id="historyRestore" type="button" class="secondary-button" data-ff-i18n="importBackup">↑ Import backup</button></div>
+        <p class="pdf-help" data-ff-i18n="historyPrivacy">Историята съдържа имена и метаданни, но не самите файлове. Импортът добавя записи, без да изтрива съществуващите.</p>
         <div id="historyList" class="history-list"></div><div id="emptyHistory" class="empty-state"><span>◷</span><h3 data-i18n="emptyHistoryTitle">Все още няма история</h3><p data-i18n="emptyHistoryDesc">След първата обработка тя ще се появи тук.</p></div>
       </section>
 
@@ -207,7 +245,7 @@
         <div class="settings-list"><label class="setting-row"><div><strong data-i18n="appearance">Външен вид</strong><small data-i18n="appearanceDesc">Избирай между светла, тъмна и системна тема</small></div><select id="themeSetting"><option value="system" data-i18n="system">Системна</option><option value="dark" data-i18n="dark">Тъмна</option><option value="light" data-i18n="light">Светла</option></select></label>
         <label class="setting-row"><div><strong data-i18n="language">Език</strong><small data-i18n="languageDesc">Език на интерфейса</small></div><select id="languageSetting"><option value="bg">Български</option><option value="en">English</option></select></label>
         <div class="setting-row"><div><strong data-i18n="privacy">Поверителност</strong><small data-i18n="privacySettings">Снимките се обработват локално. Историята е само на това устройство.</small></div><span class="status-tag ready">LOCAL</span></div>
-        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.4.0 · PWA</small></div><span>0.4.0</span></div></div>
+        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.5.0 · PWA</small></div><span>0.5.0</span></div></div>
         <section class="install-settings">
           <div class="install-settings-head"><div><h3 data-i18n="pwaSettingsTitle">PWA инсталация</h3><p data-i18n="pwaSettingsDesc">Проверка на условията и инструкции за Android Chrome.</p></div><button id="installSettingsButton" class="primary-button" type="button" data-i18n="installButton">Инсталирай</button></div>
           <p id="installStatus" class="install-status" aria-live="polite"></p>
@@ -215,7 +253,7 @@
           <p class="help-note" data-i18n="installInstructions">Отвори точния https://...github.io/fileforge/ адрес в Chrome (не в GitHub или ChatGPT). После ⋮ → Add to Home screen → Install app. Ако пише Add shortcut, това не е същото като WebAPK.</p>
         </section>
       </section>
-      <footer class="footer">FileForge 0.4 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
+      <footer class="footer">FileForge 0.5 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
     </main>
 
     <nav class="bottom-nav" aria-label="Mobile navigation">
@@ -225,6 +263,8 @@
       <button class="mobile-nav" data-nav="settings"><span>⚙</span><small data-i18n="navSettings">Настройки</small></button>
     </nav>
   </div>
+  <input id="batchInput" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden>
+  <input id="backupInput" type="file" accept="application/json,.json" hidden>
   <input id="pdfInputImages" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden>
   <input id="pdfInputMerge" type="file" accept="application/pdf,.pdf" multiple hidden>
   <input id="pdfInputOrganize" type="file" accept="application/pdf,.pdf" hidden>

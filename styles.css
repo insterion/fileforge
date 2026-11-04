@@ -65,3 +65,16 @@
 .archive-workspace .pdf-item-actions{flex-shrink:0}
 .archive-workspace .pdf-empty{margin:12px 0}
 @media(max-width:760px){.archive-fields,.archive-actions{grid-template-columns:1fr}.archive-selection-count{width:100%;margin:0}.archive-entry-list{max-height:380px}}
+
+/* FileForge 0.5 — File Library, favourites, batch processing */
+.ff-no-top{margin-top:0}.ff-favorites{margin-top:24px}.ff-favorite-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}
+.ff-favorite-tile{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);border-radius:13px;padding:9px;min-width:0}
+.ff-favorite-go{border:0;background:transparent;color:var(--ink);display:flex;align-items:center;gap:6px;flex:1;min-width:0;justify-content:flex-start;text-align:left;font-size:12px;font-weight:720;padding:7px 2px}
+.ff-favorite-star{border:1px solid var(--line);border-radius:9px;padding:7px 10px;background:var(--surface2);color:var(--muted);font-size:19px;line-height:1}
+.ff-favorite-star.active{color:#e7b94a;border-color:#e7b94a}
+.ff-batch-layout{display:grid;gap:15px;max-width:950px}.ff-batch-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}.ff-batch-toggle{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;margin-bottom:16px}.ff-batch-toggle input{width:19px;height:19px;accent-color:var(--accent)}
+.ff-preset-actions{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:17px}.ff-preset-actions button{flex:1;white-space:normal;min-height:42px}.ff-progress{font-size:12px;line-height:1.5;min-height:18px;color:var(--muted);margin:14px 0 0}.ff-progressbar{width:100%;accent-color:var(--accent);height:11px;margin-top:8px}
+.ff-history-controls{display:grid;grid-template-columns:2fr 1fr;gap:9px;margin:0 0 14px}.ff-history-controls input,.ff-history-controls select{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:12px;border-radius:10px;min-width:0;font:inherit;font-size:13px}
+.ff-backup-actions{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:10px}.ff-backup-actions button{white-space:normal}.ff-empty-list{background:var(--surface);border:1px dashed var(--line);padding:20px;border-radius:14px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:760px){.ff-favorite-grid{grid-template-columns:1fr 1fr}.ff-batch-fields{grid-template-columns:1fr}.ff-backup-actions{display:grid;grid-template-columns:1fr 1fr}.ff-history-controls{grid-template-columns:1fr 130px}.ff-favorite-go{font-size:11px}}
+@media(max-width:390px){.ff-favorite-grid{grid-template-columns:1fr}.ff-history-controls{grid-template-columns:1fr}}
