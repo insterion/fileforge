@@ -6,17 +6,20 @@
   <meta name="theme-color" content="#0a111b">
   <meta name="description" content="FileForge — личен инструмент за обработка на снимки директно на устройството.">
   <meta name="color-scheme" content="dark light">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./styles.css">
-  <title>FileForge 0.1</title>
-  <script src="./app.js" defer></script>
+  <link rel="manifest" href="./manifest.webmanifest?v=0.2.0">
+  <link rel="stylesheet" href="./styles.css?v=0.2.0">
+  <title>FileForge 0.2</title>
+  <script src="./app.js?v=0.2.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigation">
-      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.1</small></span></div>
+      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.2</small></span></div>
       <div class="side-label" data-i18n="workspace">РАБОТНО ПРОСТРАНСТВО</div>
       <nav class="side-nav" aria-label="Main">
         <button class="nav-button active" data-nav="home"><span class="nav-emoji">⌂</span><span data-i18n="navHome">Начало</span></button>
@@ -48,6 +51,13 @@
           </div>
           <div class="hero-art" aria-hidden="true"><div class="art-orbit one"></div><div class="art-orbit two"></div><div class="art-sheet"><div class="art-sun"></div><div class="art-hill back"></div><div class="art-hill front"></div></div><div class="art-float float-one">JPG → WEBP</div><div class="art-float float-two">−48% ✦</div></div>
         </div>
+        <section class="install-card" id="installCard" aria-label="PWA installation">
+          <span class="install-icon" aria-hidden="true">↧</span>
+          <div class="install-description"><strong data-i18n="installCardTitle">Инсталирай FileForge на телефона</strong>
+            <p id="installHomeStatus" data-i18n="installCardHelp">Отвори директно в Chrome. Ако приложението е готово за инсталация, ще видиш бутон.</p>
+          </div>
+          <button id="installHome" class="secondary-button install-action" type="button" data-i18n="installButton">Инсталирай</button>
+        </section>
         <div class="section-heading"><div><h3 data-i18n="quickTools">Бързи инструменти</h3><p data-i18n="quickToolsDesc">Избери какво искаш да направиш</p></div><button class="text-button" type="button" data-open="tools" data-i18n="viewAll">Виж всички →</button></div>
         <div class="tool-grid">
           <button class="tool-card" data-action="pick"><span class="tool-icon mint">⇄</span><strong data-i18n="convert">Конвертиране</strong><small>JPG · PNG · WEBP</small><span class="card-arrow">↗</span></button>
@@ -61,7 +71,7 @@
       <section class="page" id="page-tools" hidden>
         <div class="section-heading"><div><h2 data-i18n="allTools">Всички инструменти</h2><p data-i18n="availableNow">Активните инструменти са отбелязани. Останалите предстоят.</p></div></div>
         <div class="module-grid">
-          <button class="module-card ready" data-action="pick"><span class="module-symbol">🖼️</span><span class="module-body"><strong data-i18n="imagesStudio">Снимки</strong><small data-i18n="imagesDescription">Convert, Compress, Resize, Crop, Rotate</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
+          <button class="module-card ready" data-action="pick"><span class="module-symbol">🖼️</span><span class="module-body"><strong data-i18n="imagesStudio">Снимки</strong><small data-i18n="imagesDescription">Convert, Compress, Resize, Crop, Rotate, Adjust</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <div class="module-card disabled"><span class="module-symbol">📄</span><span class="module-body"><strong>PDF Studio</strong><small>Merge · Split · Images to PDF</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
           <div class="module-card disabled"><span class="module-symbol">🎵</span><span class="module-body"><strong>Audio Studio</strong><small>Trim · Convert · Join</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
           <div class="module-card disabled"><span class="module-symbol">🎬</span><span class="module-body"><strong>Video Studio</strong><small>Trim · Frames · Compress</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
@@ -83,6 +93,12 @@
             <label class="field"><span data-i18n="crop">Централно изрязване</span><select id="cropRatio"><option value="none" data-i18n="noCrop">Без изрязване</option><option value="1">1:1 — Square</option><option value="1.3333333333">4:3</option><option value="1.7777777778">16:9</option></select></label>
             <label class="field"><span data-i18n="rotate">Завъртане</span><select id="rotation"><option value="0">0°</option><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select></label>
             <label class="field" id="qualityRow"><span><span data-i18n="quality">Качество</span><output id="qualityValue">82%</output></span><input id="quality" type="range" min="40" max="100" value="82" step="1"><small data-i18n="qualityInfo">За JPG/WEBP. При PNG не се използва.</small></label>
+            <div class="editor-divider"><strong data-i18n="adjustmentsTitle">Цветове и ефекти</strong><button id="resetAdjustments" class="mini-button" type="button" data-i18n="resetAdjustments">Нулирай</button></div>
+            <label class="field" for="brightness"><span><span data-i18n="brightness">Яркост</span><output id="brightnessValue">100%</output></span><input id="brightness" type="range" min="50" max="150" value="100" step="5"></label>
+            <label class="field" for="contrast"><span><span data-i18n="contrast">Контраст</span><output id="contrastValue">100%</output></span><input id="contrast" type="range" min="50" max="150" value="100" step="5"></label>
+            <label class="field" for="saturation"><span><span data-i18n="saturation">Наситеност</span><output id="saturationValue">100%</output></span><input id="saturation" type="range" min="0" max="200" value="100" step="10"></label>
+            <label class="toggle-row"><input id="grayscale" type="checkbox"><span data-i18n="grayscale">Черно-бяло изображение</span></label>
+            <label class="field" for="flip"><span data-i18n="flip">Огледално обръщане</span><select id="flip"><option value="none" data-i18n="flipNone">Без обръщане</option><option value="horizontal" data-i18n="flipHorizontal">Хоризонтално</option><option value="vertical" data-i18n="flipVertical">Вертикално</option><option value="both" data-i18n="flipBoth">И двете</option></select></label>
             <p class="processing-note" data-i18n="limitsNote">Препоръчителен максимум: 25 MB / 32 MP на снимка.</p>
             <button id="processButton" class="primary-button full" type="button" data-i18n="process">✦ Обработи снимката</button>
             <a id="downloadButton" class="download-button" href="#" download hidden><span data-i18n="download">↓ Изтегли резултата</span></a>
@@ -101,10 +117,15 @@
         <div class="settings-list"><label class="setting-row"><div><strong data-i18n="appearance">Външен вид</strong><small data-i18n="appearanceDesc">Избирай между светла, тъмна и системна тема</small></div><select id="themeSetting"><option value="system" data-i18n="system">Системна</option><option value="dark" data-i18n="dark">Тъмна</option><option value="light" data-i18n="light">Светла</option></select></label>
         <label class="setting-row"><div><strong data-i18n="language">Език</strong><small data-i18n="languageDesc">Език на интерфейса</small></div><select id="languageSetting"><option value="bg">Български</option><option value="en">English</option></select></label>
         <div class="setting-row"><div><strong data-i18n="privacy">Поверителност</strong><small data-i18n="privacySettings">Снимките се обработват локално. Историята е само на това устройство.</small></div><span class="status-tag ready">LOCAL</span></div>
-        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.1.0 · PWA</small></div><span>0.1.0</span></div></div>
-        <div class="info-banner"><span class="info-icon">ⓘ</span><div><strong data-i18n="offlineTitle">Инсталация и offline</strong><p data-i18n="offlineText">Отвори сайта през Chrome → меню ⋮ → Add to Home screen / Install app. След успешното първо зареждане основните файлове се запазват за работа без интернет.</p></div></div>
+        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.2.0 · PWA</small></div><span>0.2.0</span></div></div>
+        <section class="install-settings">
+          <div class="install-settings-head"><div><h3 data-i18n="pwaSettingsTitle">PWA инсталация</h3><p data-i18n="pwaSettingsDesc">Проверка на условията и инструкции за Android Chrome.</p></div><button id="installSettingsButton" class="primary-button" type="button" data-i18n="installButton">Инсталирай</button></div>
+          <p id="installStatus" class="install-status" aria-live="polite"></p>
+          <div class="diagnostics"><div><span data-i18n="secureStatus">Сигурна връзка (HTTPS)</span><strong id="pwaSecure">…</strong></div><div><span>Manifest</span><strong id="pwaManifest">…</strong></div><div><span>Service Worker</span><strong id="pwaWorker">…</strong></div></div>
+          <p class="help-note" data-i18n="installInstructions">Отвори точния https://...github.io/fileforge/ адрес в Chrome (не в GitHub или ChatGPT). После ⋮ → Add to Home screen → Install app. Ако пише Add shortcut, това не е същото като WebAPK.</p>
+        </section>
       </section>
-      <footer class="footer">FileForge 0.1 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
+      <footer class="footer">FileForge 0.2 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
     </main>
 
     <nav class="bottom-nav" aria-label="Mobile navigation">
