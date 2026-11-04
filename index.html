@@ -4,23 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0a111b">
-  <meta name="description" content="FileForge — локална обработка на снимки и PDF файлове директно на устройството.">
+  <meta name="description" content="FileForge — локална обработка на снимки, PDF и ZIP файлове директно на устройството.">
   <meta name="color-scheme" content="dark light">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest?v=0.3.0">
-  <link rel="stylesheet" href="./styles.css?v=0.3.0">
-  <title>FileForge 0.3</title>
-  <script src="./app.js?v=0.3.0" defer></script>
-  <script src="./pdf-studio.js?v=0.3.0" defer></script>
+  <link rel="manifest" href="./manifest.webmanifest?v=0.4.0">
+  <link rel="stylesheet" href="./styles.css?v=0.4.0">
+  <title>FileForge 0.4</title>
+  <script src="./app.js?v=0.4.0" defer></script>
+  <script src="./pdf-studio.js?v=0.4.0" defer></script>
+  <script src="./jszip.min.js?v=0.4.0" defer></script>
+  <script src="./archive-studio.js?v=0.4.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigation">
-      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.3</small></span></div>
+      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.4</small></span></div>
       <div class="side-label" data-i18n="workspace">РАБОТНО ПРОСТРАНСТВО</div>
       <nav class="side-nav" aria-label="Main">
         <button class="nav-button active" data-nav="home"><span class="nav-emoji">⌂</span><span data-i18n="navHome">Начало</span></button>
@@ -67,6 +69,7 @@
           <button class="tool-card" data-action="pick"><span class="tool-icon coral">◩</span><strong data-i18n="cropRotate">Изрязване и завъртане</strong><small>Crop · Rotate</small><span class="card-arrow">↗</span></button>
         </div>
         <div class="pdf-home-cta"><div><strong data-pdf-i18n="pdfCardTitle">📄 PDF Studio вече е тук</strong><p data-pdf-i18n="pdfCardDesc">Снимки в PDF · Обединяване · Извличане · Разделяне · Подреждане</p></div><button type="button" class="secondary-button" id="pdfOpenHome" data-pdf-i18n="openPdfStudio">Отвори PDF Studio →</button></div>
+        <div class="pdf-home-cta"><div><strong data-archive-i18n="archiveCardTitle">🗜️ ZIP & Archives</strong><p data-archive-i18n="archiveCardDesc">Създай ZIP · Отвори архив · Извлечи файлове</p></div><button type="button" class="secondary-button" id="archiveOpenHome" data-archive-i18n="archiveOpenButton">Отвори Archives →</button></div>
         <div class="info-banner"><span class="info-icon">✦</span><div><strong data-i18n="privateHeading">Личните файлове остават при теб</strong><p data-i18n="privateDesc">Обработката става в браузъра. Историята пази само имена и информация, не копия на снимките.</p></div></div>
       </section>
 
@@ -77,7 +80,7 @@
           <button class="module-card ready" type="button" id="pdfOpenTools"><span class="module-symbol">📄</span><span class="module-body"><strong>PDF Studio</strong><small>Images to PDF · Merge · Split · Organise</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <div class="module-card disabled"><span class="module-symbol">🎵</span><span class="module-body"><strong>Audio Studio</strong><small>Trim · Convert · Join</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
           <div class="module-card disabled"><span class="module-symbol">🎬</span><span class="module-body"><strong>Video Studio</strong><small>Trim · Frames · Compress</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
-          <div class="module-card disabled"><span class="module-symbol">🗜️</span><span class="module-body"><strong>Archives</strong><small>ZIP · Extract</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
+          <button class="module-card ready" type="button" id="archiveOpenTools"><span class="module-symbol">🗜️</span><span class="module-body"><strong data-archive-i18n="archiveName">ZIP & Archives</strong><small data-archive-i18n="archiveToolDesc">Създай ZIP · Отвори · Извлечи</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <div class="module-card disabled"><span class="module-symbol">⬇️</span><span class="module-body"><strong>Downloads</strong><small>Direct links · Share</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
         </div>
       </section>
@@ -159,6 +162,41 @@
         </div>
       </section>
 
+
+      <section class="page" id="page-archives" hidden>
+        <div class="editor-head"><div><span class="eyebrow">ZIP & ARCHIVES</span><h2 data-archive-i18n="archiveTitle">ZIP инструменти</h2><p data-archive-i18n="archiveIntro">Създавай ZIP и извличай файлове без качване на сървър.</p></div><button type="button" class="secondary-button" id="archiveReset" data-archive-i18n="newWorkspace">Ново</button></div>
+        <div class="pdf-tabs" role="tablist" aria-label="ZIP tools">
+          <button type="button" class="pdf-tab active" data-archive-tab="create" role="tab" aria-selected="true" data-archive-i18n="tabCreate">Създай ZIP</button>
+          <button type="button" class="pdf-tab" data-archive-tab="open" role="tab" aria-selected="false" data-archive-i18n="tabOpen">Отвори ZIP</button>
+        </div>
+        <div class="archive-workspace">
+          <section class="pdf-panel" id="archiveModeCreate">
+            <h3 data-archive-i18n="createHeading">Създаване на ZIP архив</h3>
+            <p class="pdf-help" data-archive-i18n="createHelp">Добави файлове от телефона. Можеш да ги премахваш или да променяш реда преди създаването.</p>
+            <button class="secondary-button pdf-add" type="button" id="archiveAddFiles" data-archive-i18n="addFiles">＋ Добави файлове</button>
+            <div id="archiveCreateList" class="pdf-items" aria-live="polite"></div>
+            <div class="archive-fields">
+              <label class="field"><span data-archive-i18n="zipName">Име на архива</span><input id="archiveOutputName" type="text" maxlength="70" value="fileforge-archive" autocomplete="off" spellcheck="false"></label>
+              <label class="field"><span data-archive-i18n="compression">Компресия</span><select id="archiveCompression"><option value="standard" data-archive-i18n="standard">Стандартна</option><option value="fast" data-archive-i18n="fast">Бърза</option><option value="none" data-archive-i18n="none">Без компресиране</option></select></label>
+            </div>
+            <button type="button" id="archiveCreate" class="primary-button full" data-archive-i18n="makeZip">Създай ZIP файл</button>
+          </section>
+          <section class="pdf-panel" id="archiveModeOpen" hidden>
+            <h3 data-archive-i18n="openHeading">Отвори ZIP архив</h3>
+            <p class="pdf-help" data-archive-i18n="openHelp">Разгледай съдържанието, избери файлове и ги подготви за отделно изтегляне. Не се поддържат ZIP файлове с парола.</p>
+            <button class="secondary-button pdf-add" type="button" id="archiveChooseZip" data-archive-i18n="chooseZip">＋ Избери ZIP</button>
+            <p id="archiveOpenInfo" class="pdf-file-caption" aria-live="polite"></p>
+            <div class="archive-select-tools"><button class="mini-button" type="button" id="archiveSelectAll" data-archive-i18n="selectAll">Избери всички</button><button class="mini-button" type="button" id="archiveSelectNone" data-archive-i18n="selectNone">Премахни избора</button><span id="archiveSelectionCount" class="archive-selection-count"></span></div>
+            <div id="archiveOpenList" class="archive-entry-list" aria-live="polite"></div>
+            <div class="archive-actions"><button type="button" id="archiveExtract" class="primary-button full" data-archive-i18n="extractSelected">Подготви отделни файлове</button><button type="button" id="archiveRepack" class="secondary-button full" data-archive-i18n="repackSelected">Изтегли избраните като ZIP</button></div>
+          </section>
+          <section class="pdf-results" id="archiveResults" hidden><h3 data-archive-i18n="readyFiles">Готови файлове</h3><div id="archiveDownloads" class="pdf-downloads"></div><p class="pdf-help" data-archive-i18n="downloadHelp">Натисни всеки линк, за да запазиш файла. Оригиналите остават непроменени.</p></section>
+          <p id="archiveStatus" class="pdf-status" role="status" aria-live="polite"></p>
+          <p class="pdf-limits" data-archive-i18n="limits">Създаване: до 60 файла, 25 MB на файл, 60 MB общо. Отваряне: ZIP до 30 MB, 120 файла и 80 MB разархивирано съдържание.</p>
+          <p class="pdf-limits" data-archive-i18n="offlineNote">ZIP инструментите работят локално и offline след успешното обновяване на PWA.</p>
+        </div>
+      </section>
+
       <section class="page" id="page-history" hidden>
         <div class="section-heading"><div><h2 data-i18n="historyTitle">Последни операции</h2><p data-i18n="historyDesc">История само с метаданни на това устройство.</p></div><button class="secondary-button" id="clearHistory" type="button" data-i18n="clearHistory">Изчисти историята</button></div>
         <div id="historyList" class="history-list"></div><div id="emptyHistory" class="empty-state"><span>◷</span><h3 data-i18n="emptyHistoryTitle">Все още няма история</h3><p data-i18n="emptyHistoryDesc">След първата обработка тя ще се появи тук.</p></div>
@@ -169,7 +207,7 @@
         <div class="settings-list"><label class="setting-row"><div><strong data-i18n="appearance">Външен вид</strong><small data-i18n="appearanceDesc">Избирай между светла, тъмна и системна тема</small></div><select id="themeSetting"><option value="system" data-i18n="system">Системна</option><option value="dark" data-i18n="dark">Тъмна</option><option value="light" data-i18n="light">Светла</option></select></label>
         <label class="setting-row"><div><strong data-i18n="language">Език</strong><small data-i18n="languageDesc">Език на интерфейса</small></div><select id="languageSetting"><option value="bg">Български</option><option value="en">English</option></select></label>
         <div class="setting-row"><div><strong data-i18n="privacy">Поверителност</strong><small data-i18n="privacySettings">Снимките се обработват локално. Историята е само на това устройство.</small></div><span class="status-tag ready">LOCAL</span></div>
-        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.3.0 · PWA</small></div><span>0.3.0</span></div></div>
+        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.4.0 · PWA</small></div><span>0.4.0</span></div></div>
         <section class="install-settings">
           <div class="install-settings-head"><div><h3 data-i18n="pwaSettingsTitle">PWA инсталация</h3><p data-i18n="pwaSettingsDesc">Проверка на условията и инструкции за Android Chrome.</p></div><button id="installSettingsButton" class="primary-button" type="button" data-i18n="installButton">Инсталирай</button></div>
           <p id="installStatus" class="install-status" aria-live="polite"></p>
@@ -177,7 +215,7 @@
           <p class="help-note" data-i18n="installInstructions">Отвори точния https://...github.io/fileforge/ адрес в Chrome (не в GitHub или ChatGPT). После ⋮ → Add to Home screen → Install app. Ако пише Add shortcut, това не е същото като WebAPK.</p>
         </section>
       </section>
-      <footer class="footer">FileForge 0.3 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
+      <footer class="footer">FileForge 0.4 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
     </main>
 
     <nav class="bottom-nav" aria-label="Mobile navigation">
@@ -191,6 +229,8 @@
   <input id="pdfInputMerge" type="file" accept="application/pdf,.pdf" multiple hidden>
   <input id="pdfInputOrganize" type="file" accept="application/pdf,.pdf" hidden>
   <input id="pdfInputSplit" type="file" accept="application/pdf,.pdf" hidden>
+  <input id="archiveCreateInput" type="file" multiple hidden>
+  <input id="archiveOpenInput" type="file" accept=".zip,application/zip,application/x-zip-compressed" hidden>
   <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden>
 </body>
 </html>

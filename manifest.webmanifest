@@ -2,7 +2,7 @@
   "id": "./",
   "name": "FileForge - File Toolkit",
   "short_name": "FileForge",
-  "description": "Local-first Image and PDF Studio: convert pictures, merge, split and organize PDFs.",
+  "description": "Local-first Image, PDF and ZIP toolkit: edit photos, organize PDFs, create and extract ZIP files.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

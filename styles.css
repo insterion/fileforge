@@ -47,3 +47,21 @@
 .pdf-rule{text-align:center;margin:20px 0;color:var(--muted);font-size:11px;font-weight:800}
 .pdf-results{border-color:var(--accent)}.pdf-downloads{display:grid;gap:9px;margin:15px 0}.pdf-downloads .download-button{margin:0;font-size:12px;overflow-wrap:anywhere;white-space:normal;text-align:center}
 @media(max-width:760px){.pdf-panel,.pdf-results{padding:16px}.pdf-item{flex-wrap:wrap;gap:8px}.pdf-item-main{flex:1 1 calc(100% - 60px)}.pdf-item-actions{margin-left:50px;width:calc(100% - 50px);justify-content:flex-start}.pdf-pages{grid-template-columns:1fr}.pdf-pages .pdf-item-actions{max-width:none}.pdf-home-cta{flex-direction:column;align-items:flex-start}.pdf-home-cta button{width:100%}.pdf-small-button{min-height:38px;min-width:39px}}
+
+
+/* FileForge 0.4 — ZIP & Archives */
+.archive-workspace{display:grid;gap:15px;max-width:940px}
+.archive-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:15px;margin:14px 0 6px}
+.archive-fields .field{min-width:0}
+.archive-fields input,.archive-fields select{width:100%;border:1px solid var(--line);background:var(--surface2);color:var(--ink);padding:11px 12px;min-height:47px;border-radius:10px;font:inherit}
+.archive-select-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.archive-selection-count{font-size:11px;color:var(--muted);margin-left:auto}
+.archive-entry-list{display:grid;gap:8px;margin-bottom:17px;max-height:460px;overflow-y:auto}
+.archive-entry{display:flex;align-items:flex-start;gap:12px;background:var(--surface2);padding:12px;border:1px solid var(--line);border-radius:12px;min-width:0;cursor:pointer}
+.archive-entry input{width:19px;height:19px;accent-color:var(--accent);margin:2px 0 0;flex-shrink:0}
+.archive-entry-main{display:grid;gap:4px;min-width:0;flex:1}.archive-entry-main strong{font-size:12px;overflow-wrap:anywhere;font-weight:680}
+.archive-entry-main small{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.archive-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}.archive-actions button{white-space:normal;min-height:47px}
+.archive-workspace .pdf-item-actions{flex-shrink:0}
+.archive-workspace .pdf-empty{margin:12px 0}
+@media(max-width:760px){.archive-fields,.archive-actions{grid-template-columns:1fr}.archive-selection-count{width:100%;margin:0}.archive-entry-list{max-height:380px}}
