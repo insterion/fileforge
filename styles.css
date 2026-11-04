@@ -78,3 +78,29 @@
 .ff-backup-actions{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:10px}.ff-backup-actions button{white-space:normal}.ff-empty-list{background:var(--surface);border:1px dashed var(--line);padding:20px;border-radius:14px;color:var(--muted);font-size:13px;text-align:center}
 @media(max-width:760px){.ff-favorite-grid{grid-template-columns:1fr 1fr}.ff-batch-fields{grid-template-columns:1fr}.ff-backup-actions{display:grid;grid-template-columns:1fr 1fr}.ff-history-controls{grid-template-columns:1fr 130px}.ff-favorite-go{font-size:11px}}
 @media(max-width:390px){.ff-favorite-grid{grid-template-columns:1fr}.ff-history-controls{grid-template-columns:1fr}}
+
+/* FileForge 0.6 — Audio Studio */
+.ff-audio-layout{display:grid;gap:16px;max-width:920px}
+.ff-audio-details{display:grid;gap:0}
+.ff-audio-file{display:flex;gap:13px;align-items:center;background:var(--surface2);border:1px solid var(--line);padding:13px;border-radius:13px;margin:0 0 14px;min-width:0}
+.ff-audio-file>span{width:42px;height:42px;display:grid;place-items:center;background:var(--surface3);border-radius:11px;font-size:23px}
+.ff-audio-file>div{display:grid;gap:2px;min-width:0}.ff-audio-file strong{font-size:13px;overflow-wrap:anywhere}.ff-audio-file small{font-size:11px;color:var(--muted)}
+.ff-audio-player{width:100%;max-width:100%;height:48px;margin:3px 0 8px}
+.ff-wavebox{border:1px solid var(--line);border-radius:15px;overflow:hidden;background:var(--surface3);margin:12px 0}
+.ff-wavebox canvas{display:block;width:100%;height:160px;touch-action:pan-y}
+.ff-wavehint{font-size:11px;line-height:1.5;color:var(--muted);padding:8px 12px;border-top:1px solid var(--line)}
+.ff-audio-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:13px 0}
+.ff-audio-fields input,.ff-audio-name input{border:1px solid var(--line);background:var(--surface2);color:var(--ink);padding:11px 12px;min-height:44px;border-radius:10px;width:100%;font:inherit}
+.ff-audio-range-label{display:grid;gap:6px;margin:9px 0;color:var(--muted);font-size:12px;font-weight:700}
+.ff-audio-range-label input,.ff-audio-volume input{width:100%;accent-color:var(--accent)}
+.ff-audio-selection{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;padding:13px;background:var(--surface2);border:1px solid var(--line);border-radius:10px;margin:13px 0 15px}
+.ff-audio-selection strong{font-size:14px;color:var(--accent)}
+.ff-audio-preview-actions{display:flex;gap:9px;margin-bottom:20px;flex-wrap:wrap}.ff-audio-preview-actions button{flex:1;white-space:normal;min-height:45px}
+.ff-audio-volume{margin:15px 0}.ff-audio-volume output{float:right;color:var(--accent)}
+.ff-audio-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
+.ff-audio-options label{display:flex;align-items:center;gap:9px;font-size:12px;padding:12px;background:var(--surface2);border:1px solid var(--line);border-radius:10px;font-weight:650}
+.ff-audio-options input{accent-color:var(--accent);width:18px;height:18px;flex-shrink:0}
+.ff-audio-name{margin:15px 0 20px}
+.ff-audio-layout .pdf-status{min-height:24px;margin-top:12px}
+.ff-audio-layout .pdf-limits{line-height:1.6}
+@media(max-width:500px){.ff-audio-fields,.ff-audio-options{grid-template-columns:1fr}.ff-audio-selection{flex-wrap:wrap}.ff-audio-preview-actions{display:grid;grid-template-columns:1fr}}

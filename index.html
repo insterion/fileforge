@@ -4,27 +4,28 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0a111b">
-  <meta name="description" content="FileForge — локална обработка на снимки, PDF и ZIP файлове директно на устройството.">
+  <meta name="description" content="FileForge — локална обработка на снимки, PDF, ZIP и аудио файлове директно на устройството.">
   <meta name="color-scheme" content="dark light">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest?v=0.5.0">
-  <link rel="stylesheet" href="./styles.css?v=0.5.0">
-  <title>FileForge 0.5</title>
-  <script src="./app.js?v=0.5.0" defer></script>
-  <script src="./pdf-studio.js?v=0.5.0" defer></script>
-  <script src="./jszip.min.js?v=0.5.0" defer></script>
-  <script src="./archive-studio.js?v=0.5.0" defer></script>
-  <script src="./library.js?v=0.5.0" defer></script>
-  <script src="./batch-studio.js?v=0.5.0" defer></script>
+  <link rel="manifest" href="./manifest.webmanifest?v=0.6.0">
+  <link rel="stylesheet" href="./styles.css?v=0.6.0">
+  <title>FileForge 0.6</title>
+  <script src="./app.js?v=0.6.0" defer></script>
+  <script src="./pdf-studio.js?v=0.6.0" defer></script>
+  <script src="./jszip.min.js?v=0.6.0" defer></script>
+  <script src="./archive-studio.js?v=0.6.0" defer></script>
+  <script src="./library.js?v=0.6.0" defer></script>
+  <script src="./batch-studio.js?v=0.6.0" defer></script>
+  <script src="./audio-studio.js?v=0.6.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigation">
-      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.5</small></span></div>
+      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.6</small></span></div>
       <div class="side-label" data-i18n="workspace">РАБОТНО ПРОСТРАНСТВО</div>
       <nav class="side-nav" aria-label="Main">
         <button class="nav-button active" data-nav="home"><span class="nav-emoji">⌂</span><span data-i18n="navHome">Начало</span></button>
@@ -73,6 +74,7 @@
         <div class="pdf-home-cta"><div><strong data-pdf-i18n="pdfCardTitle">📄 PDF Studio вече е тук</strong><p data-pdf-i18n="pdfCardDesc">Снимки в PDF · Обединяване · Извличане · Разделяне · Подреждане</p></div><button type="button" class="secondary-button" id="pdfOpenHome" data-pdf-i18n="openPdfStudio">Отвори PDF Studio →</button></div>
         <div class="pdf-home-cta"><div><strong data-archive-i18n="archiveCardTitle">🗜️ ZIP & Archives</strong><p data-archive-i18n="archiveCardDesc">Създай ZIP · Отвори архив · Извлечи файлове</p></div><button type="button" class="secondary-button" id="archiveOpenHome" data-archive-i18n="archiveOpenButton">Отвори Archives →</button></div>
         <div class="pdf-home-cta ff-batch-cta"><div><strong data-ff-i18n="batchCta">✨ Batch Images — много снимки наведнъж</strong><p data-ff-i18n="batchCtaDesc">Конвертирай до 12 снимки с едни настройки и изтегли ZIP.</p></div><button type="button" class="secondary-button" id="batchOpenHome" data-ff-i18n="openBatch">Отвори Batch →</button></div>
+        <div class="pdf-home-cta ff-audio-cta"><div><strong data-audio-i18n="homeTitle">🎵 Audio Studio — изрежи и запази WAV</strong><p data-audio-i18n="homeDescription">Зареди аудио файл, избери откъс и изтегли нов WAV.</p></div><button type="button" class="secondary-button" id="audioOpenHome" data-audio-i18n="openAudio">Отвори Audio →</button></div>
         <section class="ff-favorites"><div class="section-heading ff-no-top"><div><h3 data-ff-i18n="favorites">☆ Любими инструменти</h3><p data-ff-i18n="favoritesHelp">Докосни звездата, за да добавиш или махнеш инструмент.</p></div></div><div id="favoriteTools" class="ff-favorite-grid"></div></section>
         <div class="info-banner"><span class="info-icon">✦</span><div><strong data-i18n="privateHeading">Личните файлове остават при теб</strong><p data-i18n="privateDesc">Обработката става в браузъра. Историята пази само имена и информация, не копия на снимките.</p></div></div>
       </section>
@@ -82,7 +84,7 @@
         <div class="module-grid">
           <button class="module-card ready" data-action="pick"><span class="module-symbol">🖼️</span><span class="module-body"><strong data-i18n="imagesStudio">Снимки</strong><small data-i18n="imagesDescription">Convert, Compress, Resize, Crop, Rotate, Adjust</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="pdfOpenTools"><span class="module-symbol">📄</span><span class="module-body"><strong>PDF Studio</strong><small>Images to PDF · Merge · Split · Organise</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
-          <div class="module-card disabled"><span class="module-symbol">🎵</span><span class="module-body"><strong>Audio Studio</strong><small>Trim · Convert · Join</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
+          <button class="module-card ready" type="button" id="audioOpenTools"><span class="module-symbol">🎵</span><span class="module-body"><strong>Audio Studio</strong><small data-audio-i18n="toolDescription">Възпроизвеждане · Trim · Volume · Fade · WAV</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <div class="module-card disabled"><span class="module-symbol">🎬</span><span class="module-body"><strong>Video Studio</strong><small>Trim · Frames · Compress</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
           <button class="module-card ready" type="button" id="batchOpenTools"><span class="module-symbol">✨</span><span class="module-body"><strong data-ff-i18n="batchTitle">Batch Images</strong><small data-ff-i18n="batchSummary">Множество снимки → един ZIP</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="archiveOpenTools"><span class="module-symbol">🗜️</span><span class="module-body"><strong data-archive-i18n="archiveName">ZIP & Archives</strong><small data-archive-i18n="archiveToolDesc">Създай ZIP · Отвори · Извлечи</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
@@ -229,11 +231,46 @@
         </div>
       </section>
 
+      <section class="page" id="page-audio" hidden>
+        <div class="editor-head"><div><span class="eyebrow">AUDIO STUDIO</span><h2 data-audio-i18n="audioHeading">Звуков редактор</h2><p data-audio-i18n="audioIntro">Избери откъс и запази нов WAV файл локално на телефона.</p></div><button type="button" class="secondary-button" id="audioReset" data-audio-i18n="reset">Ново</button></div>
+        <div class="ff-audio-layout">
+          <section class="pdf-panel">
+            <h3 data-audio-i18n="chooseHeading">1. Избери аудио</h3>
+            <p class="pdf-help" data-audio-i18n="formatHelp">WAV, MP3, M4A, OGG, WebM — ако Chrome може да ги декодира. Максимум 20 MB, до 5 минути.</p>
+            <button type="button" class="secondary-button pdf-add" id="audioPick" data-audio-i18n="chooseFile">＋ Избери аудио файл</button>
+            <div id="audioDetails" class="ff-audio-details" hidden>
+              <div class="ff-audio-file"><span aria-hidden="true">🎵</span><div><strong id="audioFileName"></strong><small id="audioFileMeta"></small></div></div>
+              <audio id="audioPlayer" controls preload="metadata" class="ff-audio-player" aria-label="Original audio player"></audio>
+              <p class="pdf-help" data-audio-i18n="originalPlayer">Плейърът по-горе възпроизвежда оригиналния запис.</p>
+              <h3 data-audio-i18n="trimHeading">2. Избери откъс</h3>
+              <div class="ff-wavebox"><canvas id="audioWave" height="160" aria-label="Audio waveform"></canvas><div class="ff-wavehint" id="audioWaveHint" data-audio-i18n="waveHint">Вълната показва силата на звука, а оцветената част — избрания откъс.</div></div>
+              <div class="ff-audio-fields">
+                <label class="field"><span data-audio-i18n="startLabel">Начало (секунди)</span><input id="audioStartNumber" type="number" inputmode="decimal" min="0" step="0.1" value="0"></label>
+                <label class="field"><span data-audio-i18n="endLabel">Край (секунди)</span><input id="audioEndNumber" type="number" inputmode="decimal" min="0" step="0.1" value="0"></label>
+              </div>
+              <label class="ff-audio-range-label"><span data-audio-i18n="startSlider">Начало</span><input id="audioStartRange" type="range" min="0" max="1" step="0.1" value="0"></label>
+              <label class="ff-audio-range-label"><span data-audio-i18n="endSlider">Край</span><input id="audioEndRange" type="range" min="0" max="1" step="0.1" value="1"></label>
+              <div class="ff-audio-selection"><span id="audioSelectionLabel">00:00 → 00:00</span><strong id="audioDurationLabel">0.0 s</strong></div>
+              <div class="ff-audio-preview-actions"><button type="button" class="secondary-button" id="audioPreview" data-audio-i18n="preview">▶ Чуй избрания откъс</button><button type="button" class="secondary-button" id="audioStop" data-audio-i18n="stop">■ Спри</button></div>
+              <h3 data-audio-i18n="effectsHeading">3. Настройки на звука</h3>
+              <label class="field ff-audio-volume"><span><span data-audio-i18n="volumeLabel">Сила на звука при export</span> <output id="audioVolumeValue">100%</output></span><input id="audioVolume" type="range" min="0" max="200" step="5" value="100"></label>
+              <div class="ff-audio-options"><label><input type="checkbox" id="audioFadeIn"><span data-audio-i18n="fadeIn">Плавно начало (Fade in)</span></label><label><input type="checkbox" id="audioFadeOut"><span data-audio-i18n="fadeOut">Плавен край (Fade out)</span></label></div>
+              <label class="field ff-audio-name"><span data-audio-i18n="filenameLabel">Име на новия файл (WAV)</span><input type="text" id="audioOutputName" maxlength="90" autocomplete="off" spellcheck="false" value="fileforge-audio"></label>
+              <button type="button" id="audioExport" class="primary-button full" data-audio-i18n="exportButton">4. Обработи и създай WAV</button>
+              <p id="audioStatus" class="pdf-status" role="status" aria-live="polite"></p>
+              <progress id="audioProgress" class="ff-progressbar" max="100" value="0" hidden></progress>
+            </div>
+          </section>
+          <section id="audioResults" class="pdf-results" hidden><h3 data-audio-i18n="readyTitle">WAV файлът е готов</h3><p id="audioResultDescription" class="pdf-help"></p><a id="audioDownload" class="download-button" download data-audio-i18n="downloadButton">↓ Изтегли WAV</a><p class="pdf-help" data-audio-i18n="privacyNote">Оригиналът не се променя. В историята се пазят само името и размерът, а не аудио файлът.</p></section>
+          <p class="pdf-limits" data-audio-i18n="limitsNote">Изход: 16-bit PCM WAV. Паметта на телефона ограничава дългите записи. MP3 export и съединяване на файлове предстоят.</p>
+        </div>
+      </section>
+
       <section class="page" id="page-history" hidden>
         <div class="section-heading"><div><h2 data-i18n="historyTitle">Последни операции</h2><p data-i18n="historyDesc">История само с метаданни на това устройство.</p></div><button class="secondary-button" id="clearHistory" type="button" data-i18n="clearHistory">Изчисти историята</button></div>
         <div class="ff-history-controls">
           <input id="historySearch" type="search" data-ff-placeholder="historySearch" placeholder="Търси по име..." aria-label="Search history">
-          <select id="historyFilter" aria-label="Filter history"><option value="all" data-ff-i18n="filterAll">Всички</option><option value="image" data-ff-i18n="filterImage">Снимки</option><option value="pdf">PDF</option><option value="zip">ZIP</option><option value="batch">Batch</option></select>
+          <select id="historyFilter" aria-label="Filter history"><option value="all" data-ff-i18n="filterAll">Всички</option><option value="image" data-ff-i18n="filterImage">Снимки</option><option value="pdf">PDF</option><option value="zip">ZIP</option><option value="batch">Batch</option><option value="audio">Audio</option></select>
         </div>
         <div class="ff-backup-actions"><button id="historyBackup" type="button" class="secondary-button" data-ff-i18n="exportBackup">↓ Export History & Favorites</button><button id="historyRestore" type="button" class="secondary-button" data-ff-i18n="importBackup">↑ Import backup</button></div>
         <p class="pdf-help" data-ff-i18n="historyPrivacy">Историята съдържа имена и метаданни, но не самите файлове. Импортът добавя записи, без да изтрива съществуващите.</p>
@@ -245,7 +282,7 @@
         <div class="settings-list"><label class="setting-row"><div><strong data-i18n="appearance">Външен вид</strong><small data-i18n="appearanceDesc">Избирай между светла, тъмна и системна тема</small></div><select id="themeSetting"><option value="system" data-i18n="system">Системна</option><option value="dark" data-i18n="dark">Тъмна</option><option value="light" data-i18n="light">Светла</option></select></label>
         <label class="setting-row"><div><strong data-i18n="language">Език</strong><small data-i18n="languageDesc">Език на интерфейса</small></div><select id="languageSetting"><option value="bg">Български</option><option value="en">English</option></select></label>
         <div class="setting-row"><div><strong data-i18n="privacy">Поверителност</strong><small data-i18n="privacySettings">Снимките се обработват локално. Историята е само на това устройство.</small></div><span class="status-tag ready">LOCAL</span></div>
-        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.5.0 · PWA</small></div><span>0.5.0</span></div></div>
+        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.6.0 · PWA</small></div><span>0.6.0</span></div></div>
         <section class="install-settings">
           <div class="install-settings-head"><div><h3 data-i18n="pwaSettingsTitle">PWA инсталация</h3><p data-i18n="pwaSettingsDesc">Проверка на условията и инструкции за Android Chrome.</p></div><button id="installSettingsButton" class="primary-button" type="button" data-i18n="installButton">Инсталирай</button></div>
           <p id="installStatus" class="install-status" aria-live="polite"></p>
@@ -253,7 +290,7 @@
           <p class="help-note" data-i18n="installInstructions">Отвори точния https://...github.io/fileforge/ адрес в Chrome (не в GitHub или ChatGPT). После ⋮ → Add to Home screen → Install app. Ако пише Add shortcut, това не е същото като WebAPK.</p>
         </section>
       </section>
-      <footer class="footer">FileForge 0.5 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
+      <footer class="footer">FileForge 0.6 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
     </main>
 
     <nav class="bottom-nav" aria-label="Mobile navigation">
@@ -263,6 +300,7 @@
       <button class="mobile-nav" data-nav="settings"><span>⚙</span><small data-i18n="navSettings">Настройки</small></button>
     </nav>
   </div>
+  <input id="audioInput" type="file" accept="audio/*,.wav,.mp3,.m4a,.aac,.ogg,.webm" hidden>
   <input id="batchInput" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden>
   <input id="backupInput" type="file" accept="application/json,.json" hidden>
   <input id="pdfInputImages" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden>
