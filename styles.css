@@ -104,3 +104,21 @@
 .ff-audio-layout .pdf-status{min-height:24px;margin-top:12px}
 .ff-audio-layout .pdf-limits{line-height:1.6}
 @media(max-width:500px){.ff-audio-fields,.ff-audio-options{grid-template-columns:1fr}.ff-audio-selection{flex-wrap:wrap}.ff-audio-preview-actions{display:grid;grid-template-columns:1fr}}
+
+/* FileForge 0.7 — responsive local Video Studio */
+.ff-video-layout{display:grid;gap:16px;max-width:920px}
+.ff-video-layout h3{font-size:17px;margin:7px 0 15px}
+.ff-video-player{display:block;width:100%;max-height:460px;aspect-ratio:16/9;object-fit:contain;border:1px solid var(--line);border-radius:13px;background:#020506;margin:14px 0}
+.ff-video-timeline{margin:14px 0 26px}.ff-video-timeline input[type=range]{width:100%;accent-color:var(--accent);min-height:28px}
+.ff-video-timeline .ff-audio-selection{margin:5px 0 8px}
+.ff-video-actions{display:grid;grid-template-columns:minmax(140px,.75fr) minmax(0,1.25fr);align-items:end;gap:12px;margin-bottom:16px}
+.ff-video-actions .field{margin:0}.ff-video-actions button{min-height:44px;white-space:normal}
+.ff-video-actions select{width:100%;min-height:44px;background:var(--surface2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px}
+.ff-video-frame-result{display:grid;gap:12px;padding:13px;background:var(--surface2);border-radius:13px;margin:9px 0 23px}
+.ff-video-frame-result img{max-width:100%;max-height:350px;margin:auto;border-radius:10px;object-fit:contain}
+.ff-video-frame-result .download-button{margin:0;text-align:center}.ff-video-frame-result .ff-video-player{max-height:250px;margin:0}
+.ff-video-small-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px}
+.ff-video-small-actions button{white-space:normal;min-height:44px}
+.ff-video-layout button:disabled{opacity:.55;cursor:not-allowed}
+.ff-video-layout .pdf-status{min-height:24px}
+@media(max-width:520px){.ff-video-actions,.ff-video-small-actions{grid-template-columns:1fr}.ff-video-player{max-height:280px}.ff-video-layout h3{font-size:16px}}

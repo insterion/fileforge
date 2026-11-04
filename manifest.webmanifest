@@ -2,7 +2,7 @@
   "id": "./",
   "name": "FileForge - File Toolkit",
   "short_name": "FileForge",
-  "description": "Offline-first image, batch, PDF, ZIP and Audio tools with favourites and metadata-only history.",
+  "description": "Offline-first image, batch, PDF, ZIP, Audio and Video tools with favourites and metadata-only history.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -26,6 +26,6 @@
     "productivity",
     "utilities",
     "photo",
-    "books"
+    "video"
   ]
 }
