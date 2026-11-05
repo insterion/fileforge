@@ -145,3 +145,17 @@
 .ff-download-result>strong{color:var(--accent)}
 .ff-download-preview{margin-top:12px;min-width:0}.ff-download-preview img,.ff-download-preview video{max-width:100%;width:auto;max-height:265px;border-radius:11px;display:block}.ff-download-preview audio{width:100%;max-width:100%}
 @media(max-width:560px){.ff-download-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.ff-download-actions.secondary{grid-template-columns:1fr 1fr}.ff-download-actions.secondary>:last-child{grid-column:1/-1}}
+
+
+/* FileForge 1.1: lightweight diagnostics, mobile friendly */
+.ff-health-panel{margin-top:20px;padding:20px;border-radius:18px;border:1px solid var(--line);background:var(--surface);max-width:860px}
+.ff-health-heading h3{font-size:18px;margin:0 0 4px}.ff-health-heading p{margin:0 0 16px;font-size:12px;color:var(--muted);line-height:1.6}
+.ff-health-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ff-health-grid>div{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:13px;display:grid;gap:6px;min-width:0}
+.ff-health-grid span{font-size:11px;color:var(--muted)}.ff-health-grid strong{font-size:13px;font-weight:750;overflow-wrap:anywhere}
+.ff-health-message{min-height:21px;font-size:12px;color:var(--accent);margin:15px 0 8px;overflow-wrap:anywhere}
+.ff-health-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ff-health-actions button{white-space:normal;min-height:47px;line-height:1.35}
+.ff-health-actions #ffHealthReload{grid-column:1/-1}
+.ff-health-footnote{font-size:11px;line-height:1.6;color:var(--muted);margin:16px 0 0}
+@media(max-width:420px){.ff-health-panel{padding:13px}.ff-health-actions{grid-template-columns:1fr}.ff-health-grid{gap:7px}.ff-health-grid>div{padding:10px}}
