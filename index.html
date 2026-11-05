@@ -11,23 +11,23 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest?v=0.9.0">
-  <link rel="stylesheet" href="./styles.css?v=0.9.0">
-  <title>FileForge 0.9</title>
-  <script src="./app.js?v=0.9.0" defer></script>
-  <script src="./pdf-studio.js?v=0.9.0" defer></script>
-  <script src="./jszip.min.js?v=0.9.0" defer></script>
-  <script src="./archive-studio.js?v=0.9.0" defer></script>
-  <script src="./library.js?v=0.9.0" defer></script>
-  <script src="./batch-studio.js?v=0.9.0" defer></script>
-  <script src="./audio-studio.js?v=0.9.0" defer></script>
-  <script src="./video-studio.js?v=0.9.0" defer></script>
-  <script src="./downloads-studio.js?v=0.9.0" defer></script>
+  <link rel="manifest" href="./manifest.webmanifest?v=1.0.0">
+  <link rel="stylesheet" href="./styles.css?v=1.0.0">
+  <title>FileForge 1.0</title>
+  <script src="./app.js?v=1.0.0" defer></script>
+  <script src="./pdf-studio.js?v=1.0.0" defer></script>
+  <script src="./jszip.min.js?v=1.0.0" defer></script>
+  <script src="./archive-studio.js?v=1.0.0" defer></script>
+  <script src="./library.js?v=1.0.0" defer></script>
+  <script src="./batch-studio.js?v=1.0.0" defer></script>
+  <script src="./audio-studio.js?v=1.0.0" defer></script>
+  <script src="./video-studio.js?v=1.0.0" defer></script>
+  <script src="./downloads-studio.js?v=1.0.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigation">
-      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.9</small></span></div>
+      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>1.0</small></span></div>
       <div class="side-label" data-i18n="workspace">РАБОТНО ПРОСТРАНСТВО</div>
       <nav class="side-nav" aria-label="Main">
         <button class="nav-button active" data-nav="home"><span class="nav-emoji">⌂</span><span data-i18n="navHome">Начало</span></button>
@@ -328,12 +328,18 @@
 
       <section class="page" id="page-downloads" hidden>
         <div class="editor-head"><div><span class="eyebrow">DOWNLOADS & SHARING</span><h2 data-download-i18n="heading">Линкове и споделяне</h2><p data-download-i18n="intro">Изтегляй директни публични HTTPS файлове, копирай линкове и споделяй файлове с приложенията на Android.</p></div></div>
+        <section class="pdf-panel ff-download-panel" style="margin-bottom:1rem">
+          <h3 data-download-i18n="shareInTitle">📲 Share to FileForge</h3>
+          <p class="pdf-help" data-download-i18n="shareInHelp">Отвори линк в Chrome или друго приложение → Share / Сподели → FileForge. Линкът ще се появи тук за проверка. Работи за линкове, а не за изпращане на файлове от Share менюто.</p>
+          <p class="pdf-help" data-download-i18n="shareInPrivacy">Не изтегляме нищо автоматично. Споделените URL адреси се предават чрез Android/Chrome до страницата, затова не изпращай тайни линкове с лични кодове.</p>
+        </section>
         <div class="ff-download-layout">
           <section class="pdf-panel ff-download-panel">
             <h3 data-download-i18n="linkHeading">1. Директен линк към файл</h3>
             <p class="pdf-help" data-download-i18n="linkHelp">Постави директен HTTPS адрес към JPG, PDF, MP3, MP4, ZIP или друг файл. Сайтът трябва да позволява CORS. Не е downloader за YouTube или други стрийминг услуги.</p>
             <label class="field ff-download-field"><span data-download-i18n="urlLabel">Адрес на файл (HTTPS)</span>
               <input id="downloadUrl" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://example.org/file.pdf" maxlength="2048">
+              <button id="downloadPasteUrl" class="secondary-button" type="button" data-download-i18n="pasteLink">Постави от clipboard</button>
             </label>
             <label class="field ff-download-field"><span data-download-i18n="nameLabel">Име на файла (по избор)</span>
               <input id="downloadName" type="text" autocomplete="off" spellcheck="false" maxlength="110" placeholder="document.pdf">
@@ -388,7 +394,7 @@
         <div class="settings-list"><label class="setting-row"><div><strong data-i18n="appearance">Външен вид</strong><small data-i18n="appearanceDesc">Избирай между светла, тъмна и системна тема</small></div><select id="themeSetting"><option value="system" data-i18n="system">Системна</option><option value="dark" data-i18n="dark">Тъмна</option><option value="light" data-i18n="light">Светла</option></select></label>
         <label class="setting-row"><div><strong data-i18n="language">Език</strong><small data-i18n="languageDesc">Език на интерфейса</small></div><select id="languageSetting"><option value="bg">Български</option><option value="en">English</option></select></label>
         <div class="setting-row"><div><strong data-i18n="privacy">Поверителност</strong><small data-i18n="privacySettings">Снимките се обработват локално. Историята е само на това устройство.</small></div><span class="status-tag ready">LOCAL</span></div>
-        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.9.0 · PWA</small></div><span>0.9.0</span></div></div>
+        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 1.0.0 · PWA</small></div><span>1.0.0</span></div></div>
         <section class="install-settings">
           <div class="install-settings-head"><div><h3 data-i18n="pwaSettingsTitle">PWA инсталация</h3><p data-i18n="pwaSettingsDesc">Проверка на условията и инструкции за Android Chrome.</p></div><button id="installSettingsButton" class="primary-button" type="button" data-i18n="installButton">Инсталирай</button></div>
           <p id="installStatus" class="install-status" aria-live="polite"></p>
@@ -396,7 +402,7 @@
           <p class="help-note" data-i18n="installInstructions">Отвори точния https://...github.io/fileforge/ адрес в Chrome (не в GitHub или ChatGPT). После ⋮ → Add to Home screen → Install app. Ако пише Add shortcut, това не е същото като WebAPK.</p>
         </section>
       </section>
-      <footer class="footer">FileForge 0.9 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
+      <footer class="footer">FileForge 1.0 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
     </main>
 
     <nav class="bottom-nav" aria-label="Mobile navigation">

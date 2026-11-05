@@ -1,5 +1,5 @@
 'use strict';
-/* FileForge 0.9 — Direct HTTPS file download and Android system sharing.
+/* FileForge 1.0 — Direct HTTPS file download and Android system sharing.
    External URLs only requested by user action. Never proxy, bypass CORS or store URLs.
    No uploads: fetched bytes and selected local files remain on this device. */
 (() => {
@@ -7,7 +7,7 @@
   const LIMIT = 30 * 1024 * 1024;
   const messages = {
     bg: {
-      homeTitle:'⬇️ Downloads & Sharing', homeDesc:'Директни HTTPS линкове · Android Share · файлове към VLC',open:'Отвори Downloads →',toolDesc:'Директни HTTPS файлове · Share · VLC',
+      shareInTitle:'📲 Share to FileForge',shareInHelp:'Отвори линк в Chrome или друго приложение → Share / Сподели → FileForge. Линкът ще се появи тук за проверка. Файловете се добавят чрез Избери файл, не през Share менюто.',shareInPrivacy:'Нищо не се изтегля автоматично. Не споделяй тайни URL адреси с кодове — Android и хостингът могат да ги обработват.',pasteLink:'Постави от clipboard',pasted:'Линкът е поставен. Провери адреса и натисни Подготви файла.',pasteFailed:'Не можах да прочета clipboard. Докосни полето и избери Paste.',sharedReady:'Получен е споделен линк. Провери го и избери действие.',sharedNotHttps:'Полученият линк не е HTTPS. Можеш да го отвориш в Chrome, но не и да го изтеглиш тук.',sharedNoLink:'Споделеният текст не съдържа линк. Използвай Copy / Paste.',homeTitle:'⬇️ Downloads & Sharing', homeDesc:'Директни HTTPS линкове · Android Share · файлове към VLC',open:'Отвори Downloads →',toolDesc:'Директни HTTPS файлове · Share · VLC',
       heading:'Линкове и споделяне', intro:'Изтегляй директни публични HTTPS файлове, копирай линкове и споделяй файлове с приложенията на Android.',
       linkHeading:'1. Директен линк към файл', linkHelp:'Постави директен HTTPS адрес към JPG, PDF, MP3, MP4, ZIP или друг файл. Сървърът трябва да позволява CORS. Това не е downloader за YouTube или стрийминг сайтове.',
       urlLabel:'Адрес на файл (HTTPS)',nameLabel:'Име на файла (по избор)',fetch:'↓ Подготви файла',cancel:'Откажи',openLink:'Отвори линка ↗',copyLink:'Копирай линка',shareLink:'Сподели линка',
@@ -25,7 +25,7 @@
       noPreview:'Няма вграден преглед за този формат. Можеш да запазиш или споделиш файла.',opening:'Отваряне на линка…'
     },
     en: {
-      homeTitle:'⬇️ Downloads & Sharing',homeDesc:'Direct HTTPS files · Android Share · VLC',open:'Open Downloads →',toolDesc:'Direct HTTPS files · Share · VLC',
+      shareInTitle:'📲 Share to FileForge',shareInHelp:'From Chrome or another Android app choose Share → FileForge. The link will appear here for review. To import local files, use Choose file, not Share.',shareInPrivacy:'Nothing downloads automatically. Avoid private URLs with secret tokens; Android and the hosting service may process the shared link.',pasteLink:'Paste from clipboard',pasted:'Link pasted. Review the URL and tap Prepare file.',pasteFailed:'Could not read clipboard. Touch the input and choose Paste.',sharedReady:'Shared link received. Review it before choosing an action.',sharedNotHttps:'Shared link is not HTTPS. Open it in Chrome instead of downloading it here.',sharedNoLink:'The shared text did not contain a link. Try Copy / Paste.',homeTitle:'⬇️ Downloads & Sharing',homeDesc:'Direct HTTPS files · Android Share · VLC',open:'Open Downloads →',toolDesc:'Direct HTTPS files · Share · VLC',
       heading:'Downloads & Sharing',intro:'Download publicly accessible direct HTTPS files, copy URLs, and share files with Android apps.',
       linkHeading:'1. Direct file link',linkHelp:'Paste a direct HTTPS link to a JPG, PDF, MP3, MP4, ZIP, or another file. The server must allow CORS. Not a YouTube or streaming-site downloader.',
       urlLabel:'File URL (HTTPS)',nameLabel:'Filename (optional)',fetch:'↓ Prepare file',cancel:'Cancel',openLink:'Open link ↗',copyLink:'Copy link',shareLink:'Share link',
@@ -178,6 +178,44 @@
     if(typeof navigator.share!=='function'){copyLink();return;}
     navigator.share({title:'File link',url:url.href}).catch((e)=>{if(e?.name==='AbortError')status(tr('shareCancelled'));else status(tr('shareFailed'),true);});
   }
+  // Android installed PWA Share Target uses manifest GET parameters. The link is
+  // only prefilled: no automatic fetch, download, open, or hidden persistence.
+  function receivedShare(){
+    const current=new URL(location.href);
+    const params=current.searchParams;
+    if(!['ff_share_url','ff_share_text','ff_share_title'].some(key=>params.has(key)))return;
+    const direct=(params.get('ff_share_url')||'').slice(0,4096);
+    const text=(params.get('ff_share_text')||'').slice(0,8192);
+    const title=(params.get('ff_share_title')||'').slice(0,512);
+    // Remove shared data from the address bar and browser history as soon as possible.
+    // GET share targets may still expose parameters to the host on the initial request.
+    for(const key of ['ff_share_url','ff_share_text','ff_share_title'])params.delete(key);
+    history.replaceState(history.state,'',current.pathname+(params.toString()?'?'+params.toString():'')+current.hash);
+    const candidates=[direct,text,title];
+    let found='';
+    for(const value of candidates){
+      const match=value.match(/https?:\/\/[^\s<>"'\u0000-\u001f]+/i);
+      if(!match)continue;
+      let part=match[0].replace(/[),.;!?\]}>]+$/g,'');
+      try{const u=new URL(part);if(['https:','http:'].includes(u.protocol)){found=u.href;break;}}catch{}
+    }
+    window.FileForgeOpenDownloads?.();
+    if(found){
+      $('downloadUrl').value=found.slice(0,2048);
+      status(found.startsWith('https:')?tr('sharedReady'):tr('sharedNotHttps'),!found.startsWith('https:'));
+      $('downloadUrl').focus({preventScroll:true});
+    }else status(tr('sharedNoLink'),true);
+  }
+  async function pasteLink(){
+    try{
+      if(!navigator.clipboard?.readText)throw new Error('clipboard unavailable');
+      const text=(await navigator.clipboard.readText()).trim();
+      const match=text.match(/https?:\/\/[^\s<>"']+/i);
+      if(!match)throw new Error('no link');
+      $('downloadUrl').value=match[0].replace(/[),.;!?\]}>]+$/g,'').slice(0,2048);
+      status(tr('pasted'));
+    }catch(err){status(tr('pasteFailed'),true);$('downloadUrl').focus();}
+  }
   function selectLocal(file){
     clearLocal();if(!file)return;
     if(file.size>LIMIT){status(tr('localTooBig'),true);return;}
@@ -197,6 +235,7 @@
     $('downloadsOpenHome').addEventListener('click',()=>window.FileForgeOpenDownloads?.());
     $('downloadsOpenTools').addEventListener('click',()=>window.FileForgeOpenDownloads?.());
     $('downloadFetch').addEventListener('click',fetchFile);
+    $('downloadPasteUrl').addEventListener('click',pasteLink);
     $('downloadCancel').addEventListener('click',()=>{state.reason='cancel';state.controller?.abort();});
     $('downloadOpenUrl').addEventListener('click',openLink);
     $('downloadCopyUrl').addEventListener('click',copyLink);
@@ -207,6 +246,7 @@
     $('downloadShareLocal').addEventListener('click',()=>shareFile(state.file));
     $('downloadClearLocal').addEventListener('click',clearLocal);
     translate();
+    receivedShare();
   });
   window.DownloadsStudio={translate};
 })();

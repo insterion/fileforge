@@ -2,7 +2,7 @@
   "id": "./",
   "name": "FileForge - File Toolkit",
   "short_name": "FileForge",
-  "description": "Offline-first image, batch, PDF, ZIP, Audio and Video tools with favourites and metadata-only history.",
+  "description": "Local-first file toolkit for Android. Images, PDF, ZIP, audio, video and safe link sharing.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -27,5 +27,15 @@
     "utilities",
     "photo",
     "video"
-  ]
+  ],
+  "share_target": {
+    "action": "./",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "ff_share_title",
+      "text": "ff_share_text",
+      "url": "ff_share_url"
+    }
+  }
 }
