@@ -11,22 +11,23 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest?v=0.8.0">
-  <link rel="stylesheet" href="./styles.css?v=0.8.0">
-  <title>FileForge 0.8</title>
-  <script src="./app.js?v=0.8.0" defer></script>
-  <script src="./pdf-studio.js?v=0.8.0" defer></script>
-  <script src="./jszip.min.js?v=0.8.0" defer></script>
-  <script src="./archive-studio.js?v=0.8.0" defer></script>
-  <script src="./library.js?v=0.8.0" defer></script>
-  <script src="./batch-studio.js?v=0.8.0" defer></script>
-  <script src="./audio-studio.js?v=0.8.0" defer></script>
-  <script src="./video-studio.js?v=0.8.0" defer></script>
+  <link rel="manifest" href="./manifest.webmanifest?v=0.9.0">
+  <link rel="stylesheet" href="./styles.css?v=0.9.0">
+  <title>FileForge 0.9</title>
+  <script src="./app.js?v=0.9.0" defer></script>
+  <script src="./pdf-studio.js?v=0.9.0" defer></script>
+  <script src="./jszip.min.js?v=0.9.0" defer></script>
+  <script src="./archive-studio.js?v=0.9.0" defer></script>
+  <script src="./library.js?v=0.9.0" defer></script>
+  <script src="./batch-studio.js?v=0.9.0" defer></script>
+  <script src="./audio-studio.js?v=0.9.0" defer></script>
+  <script src="./video-studio.js?v=0.9.0" defer></script>
+  <script src="./downloads-studio.js?v=0.9.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigation">
-      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.8</small></span></div>
+      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.9</small></span></div>
       <div class="side-label" data-i18n="workspace">РАБОТНО ПРОСТРАНСТВО</div>
       <nav class="side-nav" aria-label="Main">
         <button class="nav-button active" data-nav="home"><span class="nav-emoji">⌂</span><span data-i18n="navHome">Начало</span></button>
@@ -77,6 +78,7 @@
         <div class="pdf-home-cta ff-batch-cta"><div><strong data-ff-i18n="batchCta">✨ Batch Images — много снимки наведнъж</strong><p data-ff-i18n="batchCtaDesc">Конвертирай до 12 снимки с едни настройки и изтегли ZIP.</p></div><button type="button" class="secondary-button" id="batchOpenHome" data-ff-i18n="openBatch">Отвори Batch →</button></div>
         <div class="pdf-home-cta ff-audio-cta"><div><strong data-audio-i18n="homeTitle">🎵 Audio Studio — изрежи и запази WAV</strong><p data-audio-i18n="homeDescription">Зареди аудио файл, избери откъс и изтегли нов WAV.</p></div><button type="button" class="secondary-button" id="audioOpenHome" data-audio-i18n="openAudio">Отвори Audio →</button></div>
         <div class="pdf-home-cta ff-video-cta"><div><strong data-video-i18n="homeTitle">🎬 Video Studio — кадри, видео и аудио</strong><p data-video-i18n="homeDescription">Преглед · Кадри · Кратки клипове със звук</p></div><button type="button" class="secondary-button" id="videoOpenHome" data-video-i18n="openVideo">Отвори Video →</button></div>
+        <div class="pdf-home-cta ff-downloads-cta"><div><strong data-download-i18n="homeTitle">⬇️ Downloads & Sharing</strong><p data-download-i18n="homeDesc">Директни HTTPS линкове · Android Share · файлове към VLC</p></div><button class="secondary-button" id="downloadsOpenHome" type="button" data-download-i18n="open">Отвори Downloads →</button></div>
         <section class="ff-favorites"><div class="section-heading ff-no-top"><div><h3 data-ff-i18n="favorites">☆ Любими инструменти</h3><p data-ff-i18n="favoritesHelp">Докосни звездата, за да добавиш или махнеш инструмент.</p></div></div><div id="favoriteTools" class="ff-favorite-grid"></div></section>
         <div class="info-banner"><span class="info-icon">✦</span><div><strong data-i18n="privateHeading">Личните файлове остават при теб</strong><p data-i18n="privateDesc">Обработката става в браузъра. Историята пази само имена и информация, не копия на снимките.</p></div></div>
       </section>
@@ -90,7 +92,7 @@
           <button class="module-card ready" type="button" id="videoOpenTools"><span class="module-symbol">🎬</span><span class="module-body"><strong>Video Studio</strong><small data-video-i18n="toolDescription">Preview · Frames · WebM with audio</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="batchOpenTools"><span class="module-symbol">✨</span><span class="module-body"><strong data-ff-i18n="batchTitle">Batch Images</strong><small data-ff-i18n="batchSummary">Множество снимки → един ZIP</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="archiveOpenTools"><span class="module-symbol">🗜️</span><span class="module-body"><strong data-archive-i18n="archiveName">ZIP & Archives</strong><small data-archive-i18n="archiveToolDesc">Създай ZIP · Отвори · Извлечи</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
-          <div class="module-card disabled"><span class="module-symbol">⬇️</span><span class="module-body"><strong>Downloads</strong><small>Direct links · Share</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
+          <button class="module-card ready" type="button" id="downloadsOpenTools"><span class="module-symbol">⬇️</span><span class="module-body"><strong>Downloads & Sharing</strong><small data-download-i18n="toolDesc">Direct HTTPS links · Share · VLC</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
         </div>
       </section>
 
@@ -324,11 +326,57 @@
         </div>
       </section>
 
+      <section class="page" id="page-downloads" hidden>
+        <div class="editor-head"><div><span class="eyebrow">DOWNLOADS & SHARING</span><h2 data-download-i18n="heading">Линкове и споделяне</h2><p data-download-i18n="intro">Изтегляй директни публични HTTPS файлове, копирай линкове и споделяй файлове с приложенията на Android.</p></div></div>
+        <div class="ff-download-layout">
+          <section class="pdf-panel ff-download-panel">
+            <h3 data-download-i18n="linkHeading">1. Директен линк към файл</h3>
+            <p class="pdf-help" data-download-i18n="linkHelp">Постави директен HTTPS адрес към JPG, PDF, MP3, MP4, ZIP или друг файл. Сайтът трябва да позволява CORS. Не е downloader за YouTube или други стрийминг услуги.</p>
+            <label class="field ff-download-field"><span data-download-i18n="urlLabel">Адрес на файл (HTTPS)</span>
+              <input id="downloadUrl" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://example.org/file.pdf" maxlength="2048">
+            </label>
+            <label class="field ff-download-field"><span data-download-i18n="nameLabel">Име на файла (по избор)</span>
+              <input id="downloadName" type="text" autocomplete="off" spellcheck="false" maxlength="110" placeholder="document.pdf">
+            </label>
+            <div class="ff-download-actions">
+              <button id="downloadFetch" class="primary-button" type="button" data-download-i18n="fetch">↓ Подготви файл</button>
+              <button id="downloadCancel" class="secondary-button" type="button" hidden data-download-i18n="cancel">Откажи</button>
+            </div>
+            <progress id="downloadProgress" max="100" value="0" hidden></progress>
+            <p id="downloadProgressText" class="ff-download-progress" role="status" aria-live="polite"></p>
+            <div class="ff-download-actions secondary">
+              <button id="downloadOpenUrl" type="button" class="secondary-button" data-download-i18n="openLink">Отвори линка ↗</button>
+              <button id="downloadCopyUrl" type="button" class="secondary-button" data-download-i18n="copyLink">Копирай линка</button>
+              <button id="downloadShareUrl" type="button" class="secondary-button" data-download-i18n="shareLink">Сподели линка</button>
+            </div>
+            <div class="ff-download-result" id="downloadResult" hidden>
+              <strong data-download-i18n="resultTitle">Файлът е готов</strong>
+              <p id="downloadResultInfo" class="pdf-help"></p>
+              <div class="ff-download-actions"><a id="downloadSave" class="download-button" download data-download-i18n="save">↓ Запази файла</a><button id="downloadShareResult" class="secondary-button" type="button" data-download-i18n="shareFile">Сподели файла</button></div>
+              <div id="downloadPreview" class="ff-download-preview"></div>
+            </div>
+            <p class="pdf-limits" data-download-i18n="corsHelp">При CORS ограничение използвай „Отвори линка“. Максимум 30 MB. Линковете с пароли, частното съдържание и сайтовете със защита не се заобикалят.</p>
+          </section>
+          <section class="pdf-panel ff-download-panel">
+            <h3 data-download-i18n="localHeading">2. Сподели файл от телефона</h3>
+            <p class="pdf-help" data-download-i18n="localHelp">Избери файл от устройството, след което използвай Android Share. Ако VLC се предлага в системното меню, можеш да го избереш. Не е гарантирано, че всяко приложение се показва.</p>
+            <button id="downloadPickFile" class="secondary-button pdf-add" type="button" data-download-i18n="pickFile">＋ Избери файл от телефона</button>
+            <div id="downloadLocalDetails" hidden>
+              <div class="ff-audio-file"><span aria-hidden="true">📁</span><div><strong id="downloadLocalName"></strong><small id="downloadLocalMeta"></small></div></div>
+              <div class="ff-download-actions"><button id="downloadShareLocal" class="primary-button" type="button" data-download-i18n="shareFile">Сподели файла</button><button id="downloadClearLocal" class="secondary-button" type="button" data-download-i18n="clearFile">Премахни избора</button></div>
+              <div id="downloadLocalPreview" class="ff-download-preview"></div>
+            </div>
+            <p class="pdf-limits" data-download-i18n="vlcHelp">За VLC: първо опитай „Сподели файла“. Ако VLC не се появява, използвай Downloads/Files → избери файла → Open with → VLC. Уеб приложението не може принудително да стартира VLC.</p>
+          </section>
+          <p id="downloadStatus" class="pdf-status" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
       <section class="page" id="page-history" hidden>
         <div class="section-heading"><div><h2 data-i18n="historyTitle">Последни операции</h2><p data-i18n="historyDesc">История само с метаданни на това устройство.</p></div><button class="secondary-button" id="clearHistory" type="button" data-i18n="clearHistory">Изчисти историята</button></div>
         <div class="ff-history-controls">
           <input id="historySearch" type="search" data-ff-placeholder="historySearch" placeholder="Търси по име..." aria-label="Search history">
-          <select id="historyFilter" aria-label="Filter history"><option value="all" data-ff-i18n="filterAll">Всички</option><option value="image" data-ff-i18n="filterImage">Снимки</option><option value="pdf">PDF</option><option value="zip">ZIP</option><option value="batch">Batch</option><option value="audio">Audio</option><option value="video">Video</option></select>
+          <select id="historyFilter" aria-label="Filter history"><option value="all" data-ff-i18n="filterAll">Всички</option><option value="image" data-ff-i18n="filterImage">Снимки</option><option value="pdf">PDF</option><option value="zip">ZIP</option><option value="batch">Batch</option><option value="audio">Audio</option><option value="video">Video</option><option value="download" data-download-i18n="filterDownloads">Downloads</option></select>
         </div>
         <div class="ff-backup-actions"><button id="historyBackup" type="button" class="secondary-button" data-ff-i18n="exportBackup">↓ Export History & Favorites</button><button id="historyRestore" type="button" class="secondary-button" data-ff-i18n="importBackup">↑ Import backup</button></div>
         <p class="pdf-help" data-ff-i18n="historyPrivacy">Историята съдържа имена и метаданни, но не самите файлове. Импортът добавя записи, без да изтрива съществуващите.</p>
@@ -340,7 +388,7 @@
         <div class="settings-list"><label class="setting-row"><div><strong data-i18n="appearance">Външен вид</strong><small data-i18n="appearanceDesc">Избирай между светла, тъмна и системна тема</small></div><select id="themeSetting"><option value="system" data-i18n="system">Системна</option><option value="dark" data-i18n="dark">Тъмна</option><option value="light" data-i18n="light">Светла</option></select></label>
         <label class="setting-row"><div><strong data-i18n="language">Език</strong><small data-i18n="languageDesc">Език на интерфейса</small></div><select id="languageSetting"><option value="bg">Български</option><option value="en">English</option></select></label>
         <div class="setting-row"><div><strong data-i18n="privacy">Поверителност</strong><small data-i18n="privacySettings">Снимките се обработват локално. Историята е само на това устройство.</small></div><span class="status-tag ready">LOCAL</span></div>
-        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.8.0 · PWA</small></div><span>0.8.0</span></div></div>
+        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.9.0 · PWA</small></div><span>0.9.0</span></div></div>
         <section class="install-settings">
           <div class="install-settings-head"><div><h3 data-i18n="pwaSettingsTitle">PWA инсталация</h3><p data-i18n="pwaSettingsDesc">Проверка на условията и инструкции за Android Chrome.</p></div><button id="installSettingsButton" class="primary-button" type="button" data-i18n="installButton">Инсталирай</button></div>
           <p id="installStatus" class="install-status" aria-live="polite"></p>
@@ -348,7 +396,7 @@
           <p class="help-note" data-i18n="installInstructions">Отвори точния https://...github.io/fileforge/ адрес в Chrome (не в GitHub или ChatGPT). После ⋮ → Add to Home screen → Install app. Ако пише Add shortcut, това не е същото като WebAPK.</p>
         </section>
       </section>
-      <footer class="footer">FileForge 0.8 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
+      <footer class="footer">FileForge 0.9 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
     </main>
 
     <nav class="bottom-nav" aria-label="Mobile navigation">
@@ -358,6 +406,7 @@
       <button class="mobile-nav" data-nav="settings"><span>⚙</span><small data-i18n="navSettings">Настройки</small></button>
     </nav>
   </div>
+  <input id="downloadLocalInput" type="file" hidden>
   <input id="videoInput" type="file" accept="video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov,.m4v" hidden>
   <input id="audioInput" type="file" accept="audio/*,.wav,.mp3,.m4a,.aac,.ogg,.webm" hidden>
   <input id="batchInput" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden>
