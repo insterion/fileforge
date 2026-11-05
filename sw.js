@@ -1,10 +1,10 @@
-// FileForge 1.1.0. Strict app-shell cache; never cache user-shared URLs.
-const VERSION='1.1.0';
+// FileForge 1.2.0. Strict app-shell cache; never cache user-shared URLs.
+const VERSION='1.2.0';
 const CACHE='fileforge-shell-'+VERSION;
 const FILES=[
   './','./index.html','./styles.css','./app.js','./pdf-studio.js','./archive-studio.js',
   './jszip.min.js','./library.js','./batch-studio.js','./audio-studio.js',
-  './video-studio.js','./downloads-studio.js','./health.js','./manifest.webmanifest',
+  './video-studio.js','./downloads-studio.js','./health.js','./file-desk.js','./manifest.webmanifest',
   './icon-192.png','./icon-512.png'
 ];
 const APP_FILES=new Set(FILES.filter(x=>x!=='./').map(x=>x.slice(2)));

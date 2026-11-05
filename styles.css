@@ -159,3 +159,29 @@
 .ff-health-actions #ffHealthReload{grid-column:1/-1}
 .ff-health-footnote{font-size:11px;line-height:1.6;color:var(--muted);margin:16px 0 0}
 @media(max-width:420px){.ff-health-panel{padding:13px}.ff-health-actions{grid-template-columns:1fr}.ff-health-grid{gap:7px}.ff-health-grid>div{padding:10px}}
+
+/* 1.2 File Desk — mobile-first local file preview */
+.ff-desk-intro{display:flex;gap:16px;justify-content:space-between;align-items:center;padding:18px 22px;margin:18px 0;background:var(--surface-2,rgba(105,220,181,.06));border:1px solid var(--border,rgba(180,200,215,.19));border-radius:18px}
+.ff-desk-intro strong{font-size:1.05rem;display:block;margin-bottom:4px}
+.ff-desk-intro p{margin:0;color:var(--muted,#8193a6);font-size:.88rem;line-height:1.45}
+.ff-desk-intro button{flex-shrink:0}
+.ff-desk-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:16px;align-items:start}
+.ff-desk-layout .pdf-panel{min-width:0}
+.ff-desk-metadata{margin:18px 0;padding:14px;border:1px solid var(--border,rgba(180,200,215,.2));border-radius:14px;display:grid;gap:12px}
+.ff-desk-metadata div{min-width:0;display:grid;gap:3px}
+.ff-desk-metadata span{font-size:.78rem;color:var(--muted,#8193a6)}
+.ff-desk-metadata strong{font-size:.91rem;overflow-wrap:anywhere}
+.ff-desk-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ff-desk-actions .full{grid-column:1/-1}
+.ff-desk-actions button{min-width:0;white-space:normal;line-height:1.4}
+.ff-desk-placeholder{padding:26px 16px;text-align:center;opacity:.76}
+.ff-desk-status{min-height:1.4em;margin:12px 0;font-size:.87rem;color:var(--muted,#8193a6)}
+.ff-desk-error{color:#e78c8c!important}
+.ff-desk-preview{min-height:110px;display:flex;flex-direction:column;gap:12px;align-items:stretch;justify-content:center}
+.ff-desk-image,.ff-desk-video{max-height:420px;max-width:100%;width:100%;object-fit:contain;border-radius:12px}
+.ff-desk-audio{width:100%}
+.ff-desk-note{line-height:1.55;margin:0;color:var(--muted,#8193a6);font-size:.91rem}
+.ff-desk-text{overflow:auto;max-height:360px;white-space:pre-wrap;overflow-wrap:anywhere;padding:14px;border-radius:12px;background:rgba(127,145,165,.1);font-size:.82rem;line-height:1.5}
+.ff-desk-pdf-open{display:inline-flex;align-self:flex-start;align-items:center;text-decoration:none}
+@media(max-width:840px){.ff-desk-layout{grid-template-columns:1fr}}
+@media(max-width:610px){.ff-desk-intro{flex-direction:column;align-items:stretch}.ff-desk-intro button{width:100%}.ff-desk-actions{grid-template-columns:1fr}}

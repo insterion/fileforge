@@ -11,24 +11,25 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest?v=1.1.0">
-  <link rel="stylesheet" href="./styles.css?v=1.1.0">
-  <title>FileForge 1.1</title>
-  <script src="./app.js?v=1.1.0" defer></script>
-  <script src="./pdf-studio.js?v=1.1.0" defer></script>
-  <script src="./jszip.min.js?v=1.1.0" defer></script>
-  <script src="./archive-studio.js?v=1.1.0" defer></script>
-  <script src="./library.js?v=1.1.0" defer></script>
-  <script src="./batch-studio.js?v=1.1.0" defer></script>
-  <script src="./audio-studio.js?v=1.1.0" defer></script>
-  <script src="./video-studio.js?v=1.1.0" defer></script>
-  <script src="./downloads-studio.js?v=1.1.0" defer></script>
-  <script src="./health.js?v=1.1.0" defer></script>
+  <link rel="manifest" href="./manifest.webmanifest?v=1.2.0">
+  <link rel="stylesheet" href="./styles.css?v=1.2.0">
+  <title>FileForge 1.2</title>
+  <script src="./app.js?v=1.2.0" defer></script>
+  <script src="./pdf-studio.js?v=1.2.0" defer></script>
+  <script src="./jszip.min.js?v=1.2.0" defer></script>
+  <script src="./archive-studio.js?v=1.2.0" defer></script>
+  <script src="./library.js?v=1.2.0" defer></script>
+  <script src="./batch-studio.js?v=1.2.0" defer></script>
+  <script src="./audio-studio.js?v=1.2.0" defer></script>
+  <script src="./video-studio.js?v=1.2.0" defer></script>
+  <script src="./downloads-studio.js?v=1.2.0" defer></script>
+  <script src="./health.js?v=1.2.0" defer></script>
+  <script src="./file-desk.js?v=1.2.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigation">
-      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>1.1</small></span></div>
+      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>1.2</small></span></div>
       <div class="side-label" data-i18n="workspace">РАБОТНО ПРОСТРАНСТВО</div>
       <nav class="side-nav" aria-label="Main">
         <button class="nav-button active" data-nav="home"><span class="nav-emoji">⌂</span><span data-i18n="navHome">Начало</span></button>
@@ -67,6 +68,10 @@
           </div>
           <button id="installHome" class="secondary-button install-action" type="button" data-i18n="installButton">Инсталирай</button>
         </section>
+        <section class="ff-desk-intro">
+          <div><strong data-desk-i18n="title">File Desk — отвори файл</strong><p data-desk-i18n="intro">Избери файл и FileForge ще предложи подходящия инструмент. Оригиналът остава непроменен.</p></div>
+          <button class="primary-button" type="button" id="fileDeskHome" data-desk-i18n="choose">＋ Избери файл</button>
+        </section>
         <div class="section-heading"><div><h3 data-i18n="quickTools">Бързи инструменти</h3><p data-i18n="quickToolsDesc">Избери какво искаш да направиш</p></div><button class="text-button" type="button" data-open="tools" data-i18n="viewAll">Виж всички →</button></div>
         <div class="tool-grid">
           <button class="tool-card" data-action="pick"><span class="tool-icon mint">⇄</span><strong data-i18n="convert">Конвертиране</strong><small>JPG · PNG · WEBP</small><span class="card-arrow">↗</span></button>
@@ -87,6 +92,7 @@
       <section class="page" id="page-tools" hidden>
         <div class="section-heading"><div><h2 data-i18n="allTools">Всички инструменти</h2><p data-i18n="availableNow">Активните инструменти са отбелязани. Останалите предстоят.</p></div></div>
         <div class="module-grid">
+          <button class="module-card ready" type="button" id="fileDeskTools"><span class="module-symbol">📂</span><span class="module-body"><strong>File Desk</strong><small data-desk-i18n="intro">Избери файл и FileForge ще предложи подходящия инструмент.</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" data-action="pick"><span class="module-symbol">🖼️</span><span class="module-body"><strong data-i18n="imagesStudio">Снимки</strong><small data-i18n="imagesDescription">Convert, Compress, Resize, Crop, Rotate, Adjust</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="pdfOpenTools"><span class="module-symbol">📄</span><span class="module-body"><strong>PDF Studio</strong><small>Images to PDF · Merge · Split · Organise</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="audioOpenTools"><span class="module-symbol">🎵</span><span class="module-body"><strong>Audio Studio</strong><small data-audio-i18n="toolDescription">Възпроизвеждане · Trim · Volume · Fade · WAV</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
@@ -94,6 +100,37 @@
           <button class="module-card ready" type="button" id="batchOpenTools"><span class="module-symbol">✨</span><span class="module-body"><strong data-ff-i18n="batchTitle">Batch Images</strong><small data-ff-i18n="batchSummary">Множество снимки → един ZIP</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="archiveOpenTools"><span class="module-symbol">🗜️</span><span class="module-body"><strong data-archive-i18n="archiveName">ZIP & Archives</strong><small data-archive-i18n="archiveToolDesc">Създай ZIP · Отвори · Извлечи</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="downloadsOpenTools"><span class="module-symbol">⬇️</span><span class="module-body"><strong>Downloads & Sharing</strong><small data-download-i18n="toolDesc">Direct HTTPS links · Share · VLC</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
+        </div>
+      </section>
+
+      <section class="page" id="page-filedesk" hidden>
+        <div class="editor-head"><div><span class="eyebrow">FILE DESK</span><h2 data-desk-i18n="title">File Desk — отвори файл</h2><p data-desk-i18n="intro">Избери файл и FileForge ще предложи подходящия инструмент. Оригиналът остава непроменен.</p></div></div>
+        <div class="ff-desk-layout">
+          <section class="pdf-panel">
+            <button type="button" id="fileDeskChoose" class="primary-button full" data-desk-i18n="choose">＋ Избери файл</button>
+            <p id="fileDeskStatus" class="ff-desk-status" role="status" aria-live="polite"></p>
+            <div id="fileDeskPlaceholder" class="ff-desk-placeholder" data-desk-i18n="empty">Тук ще видиш информацията и прегледа на избрания файл.</div>
+            <div id="fileDeskDetails" hidden>
+              <div class="ff-desk-metadata">
+                <div><span data-desk-i18n="name">Име</span><strong id="fileDeskName"></strong></div>
+                <div><span data-desk-i18n="size">Размер</span><strong id="fileDeskSize"></strong></div>
+                <div><span data-desk-i18n="type">Формат</span><strong id="fileDeskType"></strong></div>
+                <div><span data-desk-i18n="modified">Последна промяна</span><strong id="fileDeskModified"></strong></div>
+              </div>
+              <div class="ff-desk-actions">
+                <button id="fileDeskRoute" type="button" class="primary-button full"><span data-desk-i18n="continue">Отвори в подходящия инструмент</span> — <span id="fileDeskToolName">—</span></button>
+                <button id="fileDeskSave" type="button" class="secondary-button" data-desk-i18n="save">↓ Запази копие</button>
+                <button id="fileDeskShare" type="button" class="secondary-button" data-desk-i18n="share">Сподели</button>
+                <button id="fileDeskCopy" type="button" class="secondary-button" data-desk-i18n="copy">Копирай информация</button>
+                <button id="fileDeskClear" type="button" class="secondary-button" data-desk-i18n="clear">Премахни избора</button>
+              </div>
+            </div>
+          </section>
+          <section class="pdf-panel ff-desk-preview-panel">
+            <h3 data-desk-i18n="preview">Преглед</h3>
+            <div id="fileDeskPreview" class="ff-desk-preview"></div>
+            <p class="pdf-help" data-desk-i18n="privacy">Файлът не се качва никъде и не се добавя в историята само от избора му. Прегледът е временен.</p>
+          </section>
         </div>
       </section>
 
@@ -395,7 +432,7 @@
         <div class="settings-list"><label class="setting-row"><div><strong data-i18n="appearance">Външен вид</strong><small data-i18n="appearanceDesc">Избирай между светла, тъмна и системна тема</small></div><select id="themeSetting"><option value="system" data-i18n="system">Системна</option><option value="dark" data-i18n="dark">Тъмна</option><option value="light" data-i18n="light">Светла</option></select></label>
         <label class="setting-row"><div><strong data-i18n="language">Език</strong><small data-i18n="languageDesc">Език на интерфейса</small></div><select id="languageSetting"><option value="bg">Български</option><option value="en">English</option></select></label>
         <div class="setting-row"><div><strong data-i18n="privacy">Поверителност</strong><small data-i18n="privacySettings">Снимките се обработват локално. Историята е само на това устройство.</small></div><span class="status-tag ready">LOCAL</span></div>
-        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 1.1.0 · PWA</small></div><span>1.1.0</span></div></div>
+        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 1.2.0 · PWA</small></div><span>1.2.0</span></div></div>
         <section class="install-settings">
           <div class="install-settings-head"><div><h3 data-i18n="pwaSettingsTitle">PWA инсталация</h3><p data-i18n="pwaSettingsDesc">Проверка на условията и инструкции за Android Chrome.</p></div><button id="installSettingsButton" class="primary-button" type="button" data-i18n="installButton">Инсталирай</button></div>
           <p id="installStatus" class="install-status" aria-live="polite"></p>
@@ -425,7 +462,7 @@
           <p class="ff-health-footnote" data-health-i18n="healthNote">JSON архивът пази история и любими, но не самите файлове. Защитата на паметта се разрешава от браузъра и не замества Backup. PDF Studio може да изисква интернет при първо зареждане.</p>
         </section>
       </section>
-      <footer class="footer">FileForge 1.1 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
+      <footer class="footer">FileForge 1.2 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
     </main>
 
     <nav class="bottom-nav" aria-label="Mobile navigation">
@@ -435,6 +472,7 @@
       <button class="mobile-nav" data-nav="settings"><span>⚙</span><small data-i18n="navSettings">Настройки</small></button>
     </nav>
   </div>
+  <input id="fileDeskInput" type="file" hidden>
   <input id="downloadLocalInput" type="file" hidden>
   <input id="videoInput" type="file" accept="video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov,.m4v" hidden>
   <input id="audioInput" type="file" accept="audio/*,.wav,.mp3,.m4a,.aac,.ogg,.webm" hidden>
