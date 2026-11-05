@@ -1,5 +1,5 @@
 'use strict';
-// FileForge 0.3 PDF Studio. PDF processing is local; pdf-lib 1.17.1 is a static dependency.
+// FileForge 1.3 PDF Studio. PDF editing uses pdf-lib; optional previews use PDF.js.
 // Nothing in this module uploads files or persists document bytes.
 (() => {
   const $ = (id) => document.getElementById(id);
@@ -9,10 +9,10 @@
       pdfStudioTitle:'PDF инструменти',pdfStudioIntro:'Обработвай PDF и снимки директно на устройството.',pdfNew:'Ново',tabImages:'Снимки → PDF',tabMerge:'Обедини',tabOrganize:'Страници',tabSplit:'Раздели',
       imagesHeading:'Създай PDF от снимки',imagesHelp:'Добави JPG, PNG или WEBP. Подреди снимките с бутоните ↑ ↓ и избери размер на страницата.',addImages:'＋ Добави снимки',pageSize:'Размер на страницата',naturalSize:'Размер на снимката',makeImagePdf:'Създай PDF',
       mergeHeading:'Обедини PDF файлове',mergeHelp:'Добави поне два PDF файла. Можеш да промениш реда преди обединяване.',addPdfs:'＋ Добави PDF файлове',mergePdfs:'Обедини PDF файловете',
-      organizeHeading:'Подреди PDF страниците',organizeHelp:'Зареди един PDF. Премествай, завъртай и премахвай страници, без да променяш оригинала.',choosePdf:'＋ Избери PDF',saveOrganized:'Запази нов PDF',
+      organizeHeading:'Подреди PDF страниците',organizeHelp:'Виж миниатюри, мести и завъртай страници или избери няколко за премахване. Оригиналът остава непроменен.',choosePdf:'＋ Избери PDF',saveOrganized:'Запази нов PDF',
       splitHeading:'Раздели или извлечи страници',splitHelp:'Зареди PDF и избери: извличане на страници или разделяне на две части.',pageRange:'Страници за извличане (напр. 1-3,5)',extractPages:'Извлечи посочените страници',orDivide:'ИЛИ',splitAfter:'Раздели след страница №',dividePdf:'Раздели на две части',
       pdfReady:'Готови файлове',downloadReminder:'Докосни всеки бутон, за да запазиш файла. Оригиналите не са променени.',
-      pdfLimits:'Лимит: 20 MB на файл, общо 50 MB и до 120 PDF страници. PDF с парола не се поддържат.',pdfExternalNote:'PDF библиотеката се изтегля при първото отваряне онлайн. След кеширане може да работи и offline.',
+      pdfLimits:'Лимит: 20 MB на файл, общо 50 MB и до 120 PDF страници. PDF с парола не се поддържат.',pdfExternalNote:'Миниатюрите изискват интернет при първото ползване. Ако PDF.js не се зареди, редактирането работи и без миниатюри.',
       emptyImages:'Още няма избрани снимки.',emptyMerge:'Още няма добавени PDF файлове.',emptyPages:'Избери PDF, за да се появят страниците.',
       moveUp:'Нагоре',moveDown:'Надолу',remove:'Премахни',rotateLeft:'Наляво',rotateRight:'Надясно',page:'Страница',pages:'стр.',
       noPdfLib:'Не успях да заредя PDF библиотеката. Свържи се с интернет, отвори отново приложението и повтори.',
@@ -22,17 +22,23 @@
       badRange:'Невалиден списък страници. Пример: 1-3,5. Провери номерата и повторенията.',badSplit:'Избери номер между 1 и предпоследната страница.',
       busy:'Обработва се…',generated:'Готово! Натисни Download, за да запазиш новия файл.',resetDone:'PDF работното пространство е изчистено.',fileAdded:'Файловете са добавени.',oneFileAdded:'Файлът е зареден.',
       error:'Неуспешна обработка. Опитай с по-малък или друг файл.',downloadFile:'↓ Изтегли',locked:'При големи или криптирани PDF файлове някои операции може да не работят.',
-      removed:'Премахнато',rotation:'завъртане',files:'файла',imageLimit:'Снимката е над 32 мегапиксела.'
+      removed:'Премахнато',rotation:'завъртане',files:'файла',imageLimit:'Снимката е над 32 мегапиксела.',
+      thumbHint:'Виж страниците и ги подреди със стрелките. Миниатюрите може да изискват интернет първия път.',thumbRetry:'Обнови миниатюрите',
+      selectAll:'Избери всички',deselect:'Отмени избора',removeSelected:'Премахни избраните',selected:'избрани',selection:'Избери',
+      previewLoading:'Подготвям миниатюрите…',previewReady:'Миниатюрите са готови.',
+      previewUnavailable:'Няма миниатюри. PDF обработката работи; провери връзката и натисни „Обнови миниатюрите“.',
+      previewRendering:'Миниатюрите се зареждат при превъртане…',removedSelected:'Избраните страници са премахнати.',
+      moveFirst:'Най-отпред',moveLast:'Най-отзад',emptySelection:'Няма избрани страници.'
     },
     en: {
       pdfCardTitle:'📄 PDF Studio is ready',pdfCardDesc:'Images to PDF · Merge · Extract · Split · Organise',openPdfStudio:'Open PDF Studio →',
       pdfStudioTitle:'PDF tools',pdfStudioIntro:'Work with PDFs and pictures locally on your device.',pdfNew:'New',tabImages:'Images → PDF',tabMerge:'Merge',tabOrganize:'Pages',tabSplit:'Split',
       imagesHeading:'Make a PDF from images',imagesHelp:'Add JPG, PNG or WEBP images. Set their order with ↑ ↓ and choose the page size.',addImages:'＋ Add images',pageSize:'Page size',naturalSize:'Image dimensions',makeImagePdf:'Create PDF',
       mergeHeading:'Merge PDF files',mergeHelp:'Add at least two PDFs. Reorder the files before merging.',addPdfs:'＋ Add PDF files',mergePdfs:'Merge PDFs',
-      organizeHeading:'Organise PDF pages',organizeHelp:'Load a PDF, then reorder, rotate or remove pages. Your original stays unchanged.',choosePdf:'＋ Choose PDF',saveOrganized:'Save new PDF',
+      organizeHeading:'Organise PDF pages',organizeHelp:'Preview, reorder and rotate pages, or select several to remove. Your original stays unchanged.',choosePdf:'＋ Choose PDF',saveOrganized:'Save new PDF',
       splitHeading:'Split or extract pages',splitHelp:'Load a PDF, then extract a page range or split it into two files.',pageRange:'Pages to extract (e.g. 1-3,5)',extractPages:'Extract selected pages',orDivide:'OR',splitAfter:'Split after page #',dividePdf:'Split into two files',
       pdfReady:'Ready files',downloadReminder:'Tap each button to save your file. Originals are unchanged.',
-      pdfLimits:'Limits: 20 MB per file, 50 MB total and 120 PDF pages. Password-protected PDFs are unsupported.',pdfExternalNote:'The PDF library needs internet on first load. Offline use is possible after it is cached.',
+      pdfLimits:'Limits: 20 MB per file, 50 MB total and 120 PDF pages. Password-protected PDFs are unsupported.',pdfExternalNote:'Thumbnails need internet on first use. If PDF.js cannot load, you can still edit pages without previews.',
       emptyImages:'No images chosen yet.',emptyMerge:'No PDFs added yet.',emptyPages:'Choose a PDF to see its pages.',
       moveUp:'Up',moveDown:'Down',remove:'Remove',rotateLeft:'Rotate left',rotateRight:'Rotate right',page:'Page',pages:'pages',
       noPdfLib:'PDF library did not load. Connect to the internet, reopen FileForge and try again.',invalidImages:'Choose JPG, PNG or WEBP images only.',invalidPdf:'Choose a valid PDF.',singleTooBig:'This file exceeds 20 MB.',totalTooBig:'Total size exceeds 50 MB.',tooMany:'Limit exceeded: 120 pages or 30 images.',
@@ -41,7 +47,13 @@
       badRange:'Invalid page range. Example: 1-3,5. Check page numbers and duplicates.',badSplit:'Choose a page number from 1 to the second-to-last page.',
       busy:'Processing…',generated:'Ready! Tap Download to save the new file.',resetDone:'PDF workspace cleared.',fileAdded:'Files added.',oneFileAdded:'File loaded.',
       error:'Processing failed. Try a smaller or different file.',downloadFile:'↓ Download',locked:'Large or encrypted PDFs may not work.',
-      removed:'Removed',rotation:'rotation',files:'files',imageLimit:'Image exceeds 32 megapixels.'
+      removed:'Removed',rotation:'rotation',files:'files',imageLimit:'Image exceeds 32 megapixels.',
+      thumbHint:'See PDF pages and reorder with arrows. Thumbnails may need internet the first time.',thumbRetry:'Refresh thumbnails',
+      selectAll:'Select all',deselect:'Clear selection',removeSelected:'Remove selected',selected:'selected',selection:'Select',
+      previewLoading:'Preparing thumbnails…',previewReady:'Thumbnails are ready.',
+      previewUnavailable:'Previews unavailable. PDF editing still works; check your connection and tap Refresh thumbnails.',
+      previewRendering:'Thumbnails load as you scroll…',removedSelected:'Selected pages removed.',
+      moveFirst:'Move to beginning',moveLast:'Move to end',emptySelection:'No pages selected.'
     }
   };
   const MAX_FILE = 20 * 1024 * 1024;
@@ -49,7 +61,11 @@
   const MAX_PAGES = 120;
   const MAX_IMAGES = 30;
   const MODE = ['images','merge','organize','split'];
-  const S = {mode:'images',images:[], merge:[], organize:null, pages:[], split:null, resultUrls:[], busy:false};
+  const S = {mode:'images',images:[], merge:[], organize:null, pages:[], selectedPages:new Set(), split:null, resultUrls:[], busy:false};
+  const PDFJS_URL='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js';
+  const PDFJS_WORKER='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+  const Preview={doc:null,generation:0,cache:new Map(),observer:null,renderQueue:Promise.resolve(),loading:false};
+  let pdfjsPromise=null;
   const PDF_LIB_URL='https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
   let libraryPromise=null;
   function lang() { return window.FileForgeLanguage?.() || document.documentElement.lang || 'bg'; }
@@ -94,7 +110,8 @@
   }
   function handleReset() {
     if(S.busy)return;
-    S.images=[];S.merge=[];S.organize=null;S.pages=[];S.split=null;
+    S.images=[];S.merge=[];S.organize=null;S.pages=[];S.selectedPages.clear();S.split=null;
+    clearPreview();
     ['pdfInputImages','pdfInputMerge','pdfInputOrganize','pdfInputSplit'].forEach(id=>$(id).value='');
     $('pdfRange').value='';$('pdfSplitAfter').value='1';
     clearDownloads();refreshLanguage();setStatus(t('resetDone'));
@@ -133,11 +150,166 @@
     S.merge.forEach((entry,i)=>root.append(itemRow((i+1)+'. '+entry.file.name,entry.count+' '+t('pages')+' · '+size(entry.file.size),i,S.merge,renderMerge)));
     $('pdfCreateMerge').disabled=S.busy || S.merge.length<2;
   }
-  function renderOrganize() {
+  function setThumbStatus(msg){
+    const node=$('pdfThumbStatus');if(node)node.textContent=msg;
+  }
+  function clearPreview(){
+    Preview.generation++;
+    Preview.observer?.disconnect();Preview.observer=null;
+    const old=Preview.doc;Preview.doc=null;Preview.cache.clear();Preview.renderQueue=Promise.resolve();
+    Preview.loading=false;setThumbStatus('');
+    if(old){Promise.resolve(old.destroy()).catch(()=>{});}
+  }
+  async function getPreviewLibrary(){
+    if(window.pdfjsLib?.getDocument)return window.pdfjsLib;
+    if(!pdfjsPromise){
+      pdfjsPromise=new Promise((resolve,reject)=>{
+        const script=document.createElement('script');script.src=PDFJS_URL;
+        script.onload=()=>window.pdfjsLib?.getDocument?resolve(window.pdfjsLib):reject(new Error('PDF.js unavailable'));
+        script.onerror=()=>reject(new Error('PDF.js network error'));
+        document.head.appendChild(script);
+      });
+    }
+    try {return await pdfjsPromise;}
+    catch(e){pdfjsPromise=null;throw e;}
+  }
+  async function startPreview(entry){
+    clearPreview();
+    if(!entry)return;
+    const generation=Preview.generation;
+    Preview.loading=true;setThumbStatus(t('previewLoading'));
+    try{
+      const lib=await getPreviewLibrary();
+      if(generation!==Preview.generation)return;
+      lib.GlobalWorkerOptions.workerSrc=PDFJS_WORKER;
+      const bytes=new Uint8Array(await entry.file.arrayBuffer());
+      if(generation!==Preview.generation)return;
+      const task=lib.getDocument({data:bytes,disableAutoFetch:true,stopAtErrors:false,isEvalSupported:false});
+      const doc=await task.promise;
+      if(generation!==Preview.generation){doc.destroy().catch(()=>{});return;}
+      Preview.doc=doc;Preview.loading=false;
+      setThumbStatus(t('previewRendering'));
+      renderOrganize();
+    }catch(e){
+      if(generation!==Preview.generation)return;
+      console.warn('PDF.js thumbnails:',e);
+      Preview.loading=false;
+      setThumbStatus(t('previewUnavailable'));
+    }
+  }
+  function scheduleThumb(img,part,generation){
+    if(!Preview.doc)return;
+    const key=part.index+':'+part.rotate;
+    const cached=Preview.cache.get(key);
+    if(cached){img.src=cached;img.hidden=false;img.parentElement.querySelector('.pdf-page-placeholder')?.remove();return;}
+    Preview.renderQueue=Preview.renderQueue.catch(()=>{}).then(async()=>{
+      if(generation!==Preview.generation||!img.isConnected||!Preview.doc)return;
+      const page=await Preview.doc.getPage(part.index+1);
+      if(generation!==Preview.generation||!img.isConnected)return;
+      const rotation=((page.rotate||0)+part.rotate)%360;
+      const v=page.getViewport({scale:1,rotation});
+      const scale=Math.min(150/v.width,170/v.height,2);
+      const viewport=page.getViewport({scale,rotation});
+      const canvas=document.createElement('canvas');
+      canvas.width=Math.max(1,Math.ceil(viewport.width));canvas.height=Math.max(1,Math.ceil(viewport.height));
+      const context=canvas.getContext('2d',{alpha:false});
+      if(!context)return;
+      const renderTask=page.render({canvasContext:context,viewport,background:'#ffffff'});
+      await renderTask.promise;
+      if(generation!==Preview.generation||!img.isConnected){canvas.width=0;canvas.height=0;return;}
+      const data=canvas.toDataURL('image/jpeg',.68);
+      canvas.width=0;canvas.height=0;
+      Preview.cache.set(key,data);
+      img.src=data;img.hidden=false;img.parentElement.querySelector('.pdf-page-placeholder')?.remove();
+    }).catch(e=>{
+      if(generation===Preview.generation){console.warn('PDF thumbnail page:',e);}
+    });
+  }
+  function attachPreview(img,part){
+    if(!Preview.doc)return;
+    const key=part.index+':'+part.rotate;
+    if(Preview.cache.has(key)){
+      img.src=Preview.cache.get(key);img.hidden=false;
+      img.parentElement.querySelector('.pdf-page-placeholder')?.remove();
+      return;
+    }
+    const generation=Preview.generation;
+    if('IntersectionObserver' in window){
+      if(!Preview.observer){
+        Preview.observer=new IntersectionObserver(entries=>{
+          for(const entry of entries){
+            if(entry.isIntersecting){Preview.observer?.unobserve(entry.target);
+              const meta=entry.target.__pdfPart;
+              if(meta)scheduleThumb(entry.target.__pdfImage,meta,generation);
+            }
+          }
+        },{rootMargin:'240px'});
+      }
+      const visibleTarget=img.parentElement;
+      visibleTarget.__pdfPart={index:part.index,rotate:part.rotate};
+      visibleTarget.__pdfImage=img;
+      Preview.observer.observe(visibleTarget);
+    }else{scheduleThumb(img,{index:part.index,rotate:part.rotate},generation);}
+  }
+  function renderOrganize(){
     $('pdfOrganizeName').textContent=S.organize?S.organize.file.name+' · '+S.organize.count+' '+t('pages'):t('emptyPages');
+    Preview.observer?.disconnect();Preview.observer=null;
     const root=$('pdfOrganizeList');root.replaceChildren();
-    S.pages.forEach((part,i)=>root.append(itemRow(t('page')+' '+(part.index+1),part.rotate?'↻ '+part.rotate+'°':'0°',i,S.pages,renderOrganize,true)));
-    $('pdfCreateOrganize').disabled=S.busy || !S.organize || S.pages.length===0;
+    if(!S.pages.length){
+      const p=document.createElement('p');p.className='pdf-empty';p.textContent=t('emptyPages');root.append(p);
+    }
+    S.pages.forEach((part,i)=>{
+      const card=document.createElement('div');card.className='pdf-item pdf-page-card';
+      if(S.selectedPages.has(part.index))card.classList.add('is-selected');
+      const visual=document.createElement('div');visual.className='pdf-page-visual';
+      const placeholder=document.createElement('span');placeholder.className='pdf-page-placeholder';placeholder.textContent='📄';
+      const img=document.createElement('img');img.alt=(lang()==='bg'?'Преглед страница ':'Page preview ')+(part.index+1);img.hidden=true;
+      visual.append(placeholder,img);
+      const head=document.createElement('div');head.className='pdf-page-head';
+      const body=document.createElement('div');body.className='pdf-item-main';
+      const title=document.createElement('strong');title.textContent=t('page')+' '+(part.index+1);
+      const small=document.createElement('small');small.textContent=(i+1)+' / '+S.pages.length+(part.rotate?' · ↻ '+part.rotate+'°':'');
+      body.append(title,small);
+      const label=document.createElement('label');label.className='pdf-page-select';
+      const check=document.createElement('input');check.type='checkbox';check.checked=S.selectedPages.has(part.index);check.disabled=S.busy;
+      check.setAttribute('aria-label',t('selection')+' '+(part.index+1));
+      check.addEventListener('change',()=>{
+        if(check.checked)S.selectedPages.add(part.index);else S.selectedPages.delete(part.index);
+        card.classList.toggle('is-selected',check.checked);updateSelectionButtons();
+      });
+      label.append(check,document.createTextNode(t('selection')));head.append(body,label);
+      const buttons=document.createElement('div');buttons.className='pdf-item-actions';
+      const move=(n)=>{
+        const current=S.pages.indexOf(part);if(current<0)return;
+        const next=Math.max(0,Math.min(S.pages.length-1,n));if(current===next)return;
+        S.pages.splice(current,1);S.pages.splice(next,0,part);dropOutput();renderOrganize();
+      };
+      buttons.append(
+        itemButton(t('moveUp'),'↑',()=>move(S.pages.indexOf(part)-1),i===0),
+        itemButton(t('moveDown'),'↓',()=>move(S.pages.indexOf(part)+1),i===S.pages.length-1),
+        itemButton(t('moveFirst'),'⇤',()=>move(0),i===0),
+        itemButton(t('moveLast'),'⇥',()=>move(S.pages.length-1),i===S.pages.length-1),
+        itemButton(t('rotateLeft'),'↶',()=>{part.rotate=(part.rotate+270)%360;dropOutput();renderOrganize();}),
+        itemButton(t('rotateRight'),'↷',()=>{part.rotate=(part.rotate+90)%360;dropOutput();renderOrganize();}),
+        itemButton(t('remove'),'✕',()=>{S.pages.splice(S.pages.indexOf(part),1);S.selectedPages.delete(part.index);dropOutput();renderOrganize();})
+      );
+      card.append(visual,head,buttons);root.append(card);
+      attachPreview(img,part);
+    });
+    $('pdfCreateOrganize').disabled=S.busy||!S.organize||!S.pages.length;
+    updateSelectionButtons();
+  }
+  function updateSelectionButtons(){
+    const n=S.selectedPages.size;
+    $('pdfSelectAll').disabled=S.busy||S.pages.length===0||n===S.pages.length;
+    $('pdfDeselect').disabled=S.busy||n===0;
+    $('pdfRemoveSelected').disabled=S.busy||n===0;
+    $('pdfRemoveSelected').textContent=t('removeSelected')+(n?' ('+n+')':'');
+  }
+  function removeSelected(){
+    if(S.busy||!S.selectedPages.size)return;
+    S.pages=S.pages.filter(p=>!S.selectedPages.has(p.index));
+    S.selectedPages.clear();dropOutput();renderOrganize();setStatus(t('removedSelected'));
   }
   function renderSplitInfo() {
     $('pdfSplitName').textContent=S.split?S.split.file.name+' · '+S.split.count+' '+t('pages'):t('emptyPages');
@@ -191,12 +363,15 @@
       const entry=await getDoc(file);
       if(mode==='organize'){
         S.organize=entry;S.pages=Array.from({length:entry.count},(_,i)=>({index:i,rotate:0}));
+        S.selectedPages.clear();
+        clearPreview();
       }else{
         S.split=entry;$('pdfRange').value='1-'+entry.count;
         $('pdfSplitAfter').value=String(Math.max(1,Math.floor(entry.count/2)));
       }
       dropOutput();setStatus(t('oneFileAdded'));
     });renderOrganize();renderSplitInfo();
+    if(mode==='organize'&&S.organize?.file===file){void startPreview(S.organize);}
   }
   async function withBusy(task){
     if(S.busy)return;S.busy=true;
@@ -340,6 +515,10 @@
     $('pdfCreateImages').addEventListener('click',createImages);
     $('pdfCreateMerge').addEventListener('click',createMerge);
     $('pdfCreateOrganize').addEventListener('click',createOrganize);
+    $('pdfThumbRetry').addEventListener('click',()=>{if(S.organize&&!S.busy)void startPreview(S.organize);});
+    $('pdfSelectAll').addEventListener('click',()=>{S.pages.forEach(part=>S.selectedPages.add(part.index));renderOrganize();});
+    $('pdfDeselect').addEventListener('click',()=>{S.selectedPages.clear();renderOrganize();});
+    $('pdfRemoveSelected').addEventListener('click',removeSelected);
     $('pdfExtract').addEventListener('click',extract);
     $('pdfDivide').addEventListener('click',divide);
     $('pdfPageSize').addEventListener('change',dropOutput);

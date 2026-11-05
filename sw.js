@@ -1,5 +1,5 @@
-// FileForge 1.2.0. Strict app-shell cache; never cache user-shared URLs.
-const VERSION='1.2.0';
+// FileForge 1.3.0. Strict app-shell cache; never cache user-shared URLs.
+const VERSION='1.3.0';
 const CACHE='fileforge-shell-'+VERSION;
 const FILES=[
   './','./index.html','./styles.css','./app.js','./pdf-studio.js','./archive-studio.js',
@@ -10,6 +10,10 @@ const FILES=[
 const APP_FILES=new Set(FILES.filter(x=>x!=='./').map(x=>x.slice(2)));
 const SCOPE=new URL(self.registration.scope);
 const PDF_LIB='https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+const PDFJS_FILES=new Set([
+  'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js',
+  'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'
+]);
 
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
@@ -29,14 +33,14 @@ self.addEventListener('fetch',event=>{
   const req=event.request;
   if(req.method!=='GET')return;
   const url=new URL(req.url);
-  if(url.href===PDF_LIB){
+  if(url.href===PDF_LIB||PDFJS_FILES.has(url.href)){
     event.respondWith((async()=>{
       const cache=await caches.open(CACHE);
-      const cached=await cache.match(PDF_LIB);
+      const cached=await cache.match(url.href);
       if(cached)return cached;
       try{
         const response=await fetch(req);
-        if(response.ok)await cache.put(PDF_LIB,response.clone());
+        if(response.ok || response.type==='opaque')await cache.put(url.href,response.clone());
         return response;
       }catch{return Response.error();}
     })());
