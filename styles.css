@@ -122,3 +122,11 @@
 .ff-video-layout button:disabled{opacity:.55;cursor:not-allowed}
 .ff-video-layout .pdf-status{min-height:24px}
 @media(max-width:520px){.ff-video-actions,.ff-video-small-actions{grid-template-columns:1fr}.ff-video-player{max-height:280px}.ff-video-layout h3{font-size:16px}}
+
+/* FileForge 0.8 — video/audio output modes */
+.ff-video-export-settings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:15px 0 19px}
+.ff-video-export-settings .field{margin-bottom:0;min-width:0}
+.ff-video-export-settings select{width:100%;min-height:46px;background:var(--surface2);color:var(--ink);border:1px solid var(--line);border-radius:11px;padding:10px;font:inherit;font-size:12px}
+.ff-video-audio-player{width:100%;min-height:48px;margin:0}
+#videoClipOutputInfo{overflow-wrap:anywhere;margin:0}
+@media(max-width:570px){.ff-video-export-settings{grid-template-columns:1fr}}

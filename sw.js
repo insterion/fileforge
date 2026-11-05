@@ -1,6 +1,6 @@
-// FileForge 0.7.0 — cache the application shell, PDF, ZIP, Audio and Video Studio.
+// FileForge 0.8.0 — cache the application shell, PDF, ZIP, Audio and Video Studio.
 // User files are never fetched, intercepted, or cached by this Service Worker.
-const CACHE = 'fileforge-shell-0.7.0';
+const CACHE = 'fileforge-shell-0.8.0';
 const FILES = [
   './', './index.html', './styles.css', './app.js', './pdf-studio.js',
   './archive-studio.js', './jszip.min.js', './library.js', './batch-studio.js', './audio-studio.js', './video-studio.js', './manifest.webmanifest', './icon-192.png', './icon-512.png'

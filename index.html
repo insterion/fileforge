@@ -11,22 +11,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest?v=0.7.0">
-  <link rel="stylesheet" href="./styles.css?v=0.7.0">
-  <title>FileForge 0.7</title>
-  <script src="./app.js?v=0.7.0" defer></script>
-  <script src="./pdf-studio.js?v=0.7.0" defer></script>
-  <script src="./jszip.min.js?v=0.7.0" defer></script>
-  <script src="./archive-studio.js?v=0.7.0" defer></script>
-  <script src="./library.js?v=0.7.0" defer></script>
-  <script src="./batch-studio.js?v=0.7.0" defer></script>
-  <script src="./audio-studio.js?v=0.7.0" defer></script>
-  <script src="./video-studio.js?v=0.7.0" defer></script>
+  <link rel="manifest" href="./manifest.webmanifest?v=0.8.0">
+  <link rel="stylesheet" href="./styles.css?v=0.8.0">
+  <title>FileForge 0.8</title>
+  <script src="./app.js?v=0.8.0" defer></script>
+  <script src="./pdf-studio.js?v=0.8.0" defer></script>
+  <script src="./jszip.min.js?v=0.8.0" defer></script>
+  <script src="./archive-studio.js?v=0.8.0" defer></script>
+  <script src="./library.js?v=0.8.0" defer></script>
+  <script src="./batch-studio.js?v=0.8.0" defer></script>
+  <script src="./audio-studio.js?v=0.8.0" defer></script>
+  <script src="./video-studio.js?v=0.8.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigation">
-      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.7</small></span></div>
+      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>0.8</small></span></div>
       <div class="side-label" data-i18n="workspace">РАБОТНО ПРОСТРАНСТВО</div>
       <nav class="side-nav" aria-label="Main">
         <button class="nav-button active" data-nav="home"><span class="nav-emoji">⌂</span><span data-i18n="navHome">Начало</span></button>
@@ -76,7 +76,7 @@
         <div class="pdf-home-cta"><div><strong data-archive-i18n="archiveCardTitle">🗜️ ZIP & Archives</strong><p data-archive-i18n="archiveCardDesc">Създай ZIP · Отвори архив · Извлечи файлове</p></div><button type="button" class="secondary-button" id="archiveOpenHome" data-archive-i18n="archiveOpenButton">Отвори Archives →</button></div>
         <div class="pdf-home-cta ff-batch-cta"><div><strong data-ff-i18n="batchCta">✨ Batch Images — много снимки наведнъж</strong><p data-ff-i18n="batchCtaDesc">Конвертирай до 12 снимки с едни настройки и изтегли ZIP.</p></div><button type="button" class="secondary-button" id="batchOpenHome" data-ff-i18n="openBatch">Отвори Batch →</button></div>
         <div class="pdf-home-cta ff-audio-cta"><div><strong data-audio-i18n="homeTitle">🎵 Audio Studio — изрежи и запази WAV</strong><p data-audio-i18n="homeDescription">Зареди аудио файл, избери откъс и изтегли нов WAV.</p></div><button type="button" class="secondary-button" id="audioOpenHome" data-audio-i18n="openAudio">Отвори Audio →</button></div>
-        <div class="pdf-home-cta ff-video-cta"><div><strong data-video-i18n="homeTitle">🎬 Video Studio — кадри и кратки WebM клипове</strong><p data-video-i18n="homeDescription">Преглед · Кадри · Контактна снимка · Беззвучен WebM откъс</p></div><button type="button" class="secondary-button" id="videoOpenHome" data-video-i18n="openVideo">Отвори Video →</button></div>
+        <div class="pdf-home-cta ff-video-cta"><div><strong data-video-i18n="homeTitle">🎬 Video Studio — кадри, видео и аудио</strong><p data-video-i18n="homeDescription">Преглед · Кадри · Кратки клипове със звук</p></div><button type="button" class="secondary-button" id="videoOpenHome" data-video-i18n="openVideo">Отвори Video →</button></div>
         <section class="ff-favorites"><div class="section-heading ff-no-top"><div><h3 data-ff-i18n="favorites">☆ Любими инструменти</h3><p data-ff-i18n="favoritesHelp">Докосни звездата, за да добавиш или махнеш инструмент.</p></div></div><div id="favoriteTools" class="ff-favorite-grid"></div></section>
         <div class="info-banner"><span class="info-icon">✦</span><div><strong data-i18n="privateHeading">Личните файлове остават при теб</strong><p data-i18n="privateDesc">Обработката става в браузъра. Историята пази само имена и информация, не копия на снимките.</p></div></div>
       </section>
@@ -87,7 +87,7 @@
           <button class="module-card ready" data-action="pick"><span class="module-symbol">🖼️</span><span class="module-body"><strong data-i18n="imagesStudio">Снимки</strong><small data-i18n="imagesDescription">Convert, Compress, Resize, Crop, Rotate, Adjust</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="pdfOpenTools"><span class="module-symbol">📄</span><span class="module-body"><strong>PDF Studio</strong><small>Images to PDF · Merge · Split · Organise</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="audioOpenTools"><span class="module-symbol">🎵</span><span class="module-body"><strong>Audio Studio</strong><small data-audio-i18n="toolDescription">Възпроизвеждане · Trim · Volume · Fade · WAV</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
-          <button class="module-card ready" type="button" id="videoOpenTools"><span class="module-symbol">🎬</span><span class="module-body"><strong>Video Studio</strong><small data-video-i18n="toolDescription">Preview · Frames · Storyboard · Silent WebM clip</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
+          <button class="module-card ready" type="button" id="videoOpenTools"><span class="module-symbol">🎬</span><span class="module-body"><strong>Video Studio</strong><small data-video-i18n="toolDescription">Preview · Frames · WebM with audio</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="batchOpenTools"><span class="module-symbol">✨</span><span class="module-body"><strong data-ff-i18n="batchTitle">Batch Images</strong><small data-ff-i18n="batchSummary">Множество снимки → един ZIP</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <button class="module-card ready" type="button" id="archiveOpenTools"><span class="module-symbol">🗜️</span><span class="module-body"><strong data-archive-i18n="archiveName">ZIP & Archives</strong><small data-archive-i18n="archiveToolDesc">Създай ZIP · Отвори · Извлечи</small></span><span class="status-tag ready" data-i18n="ready">Работи</span></button>
           <div class="module-card disabled"><span class="module-symbol">⬇️</span><span class="module-body"><strong>Downloads</strong><small>Direct links · Share</small></span><span class="status-tag" data-i18n="soon">Скоро</span></div>
@@ -290,20 +290,37 @@
             </div>
           </section>
           <section class="preview-panel" id="videoClipCard" hidden>
-            <h3 data-video-i18n="clipHeading">4. Кратък откъс — без звук (WebM)</h3>
-            <p class="pdf-help" data-video-i18n="clipHelp">Експериментална функция: записва избрания откъс в реално време без звук. До 15 секунди; резултатът е WebM, не MP4.</p>
+            <h3 data-video-i18n="clipHeading">4. Кратък откъс — Video / Audio</h3>
+            <p class="pdf-help" data-video-i18n="clipHelp">Запис в реално време до 15 секунди. Избери WebM със звук (ако изходният файл има звук), WebM без звук или само аудио като WebM/Opus. MP4 експорт засега няма.</p>
             <div class="ff-audio-fields">
               <label class="field"><span data-video-i18n="start">Начало (сек.)</span><input id="videoStart" type="number" min="0" step="0.1" inputmode="decimal" value="0"></label>
               <label class="field"><span data-video-i18n="end">Край (сек.)</span><input id="videoEnd" type="number" min="0" step="0.1" inputmode="decimal" value="0"></label>
             </div>
             <div class="ff-video-small-actions"><button id="videoSetStart" type="button" class="secondary-button" data-video-i18n="setStart">Начало = текущ момент</button><button id="videoSetEnd" type="button" class="secondary-button" data-video-i18n="setEnd">Край = текущ момент</button></div>
             <div class="ff-video-small-actions"><button id="videoPreviewClip" class="secondary-button" type="button" data-video-i18n="previewClip">▶ Преглед на откъса</button><button id="videoStop" class="secondary-button" type="button" data-video-i18n="stop">■ Спри</button></div>
-            <button id="videoExportClip" class="primary-button full" type="button" data-video-i18n="exportClip">Запиши откъса без звук (WebM)</button>
-            <p id="videoClipSupport" class="pdf-help" role="status"></p>
-            <div id="videoClipResult" class="ff-video-frame-result" hidden><video id="videoClipPreview" class="ff-video-player" controls playsinline preload="metadata"></video><a id="videoClipDownload" class="download-button" download data-video-i18n="downloadClip">↓ Изтегли беззвучен WebM</a></div>
+            <div class="ff-video-export-settings">
+              <label class="field"><span data-video-i18n="exportMode">Какво да запазя?</span>
+                <select id="videoExportMode">
+                  <option value="with-audio" data-video-i18n="modeSound">Видео със звук (WebM)</option>
+                  <option value="silent" data-video-i18n="modeSilent">Видео без звук (WebM)</option>
+                  <option value="audio-only" data-video-i18n="modeAudio">Само аудио (WebM/Opus)</option>
+                </select>
+              </label>
+              <label class="field" id="videoResolutionRow"><span data-video-i18n="resolution">Резолюция за видео</span>
+                <select id="videoExportResolution"><option value="480">До 480 px</option><option value="720" selected>До 720 px</option><option value="960">До 960 px</option></select>
+              </label>
+            </div>
+            <button id="videoExportClip" class="primary-button full" type="button" data-video-i18n="exportClip">Запиши откъса</button>
+            <p id="videoClipSupport" class="pdf-help" role="status" aria-live="polite"></p>
+            <div id="videoClipResult" class="ff-video-frame-result" hidden>
+              <video id="videoClipPreview" class="ff-video-player" controls playsinline preload="metadata"></video>
+              <audio id="videoAudioPreview" class="ff-video-audio-player" controls preload="metadata" hidden></audio>
+              <p id="videoClipOutputInfo" class="pdf-help"></p>
+              <a id="videoClipDownload" class="download-button" download data-video-i18n="downloadClip">↓ Изтегли WebM</a>
+            </div>
           </section>
           <p id="videoStatus" class="pdf-status" role="status" aria-live="polite"></p>
-          <p class="pdf-limits" data-video-i18n="limits">Оригиналът остава непроменен. Няма MP4 export и няма запазване на аудиото в WebM клипа. Видео файловете не се записват в историята — само имена и метаданни за успешни операции.</p>
+          <p class="pdf-limits" data-video-i18n="limits">Оригиналът не се променя. Клипът се записва в реално време и може да има малки отклонения. Няма MP4 експорт. Историята запазва само имена и метаданни, не самите файлове.</p>
         </div>
       </section>
 
@@ -323,7 +340,7 @@
         <div class="settings-list"><label class="setting-row"><div><strong data-i18n="appearance">Външен вид</strong><small data-i18n="appearanceDesc">Избирай между светла, тъмна и системна тема</small></div><select id="themeSetting"><option value="system" data-i18n="system">Системна</option><option value="dark" data-i18n="dark">Тъмна</option><option value="light" data-i18n="light">Светла</option></select></label>
         <label class="setting-row"><div><strong data-i18n="language">Език</strong><small data-i18n="languageDesc">Език на интерфейса</small></div><select id="languageSetting"><option value="bg">Български</option><option value="en">English</option></select></label>
         <div class="setting-row"><div><strong data-i18n="privacy">Поверителност</strong><small data-i18n="privacySettings">Снимките се обработват локално. Историята е само на това устройство.</small></div><span class="status-tag ready">LOCAL</span></div>
-        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.7.0 · PWA</small></div><span>0.7.0</span></div></div>
+        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 0.8.0 · PWA</small></div><span>0.8.0</span></div></div>
         <section class="install-settings">
           <div class="install-settings-head"><div><h3 data-i18n="pwaSettingsTitle">PWA инсталация</h3><p data-i18n="pwaSettingsDesc">Проверка на условията и инструкции за Android Chrome.</p></div><button id="installSettingsButton" class="primary-button" type="button" data-i18n="installButton">Инсталирай</button></div>
           <p id="installStatus" class="install-status" aria-live="polite"></p>
@@ -331,7 +348,7 @@
           <p class="help-note" data-i18n="installInstructions">Отвори точния https://...github.io/fileforge/ адрес в Chrome (не в GitHub или ChatGPT). После ⋮ → Add to Home screen → Install app. Ако пише Add shortcut, това не е същото като WebAPK.</p>
         </section>
       </section>
-      <footer class="footer">FileForge 0.7 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
+      <footer class="footer">FileForge 0.8 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
     </main>
 
     <nav class="bottom-nav" aria-label="Mobile navigation">
