@@ -155,6 +155,7 @@
       $('downloadSave').href=state.blobUrl;$('downloadSave').download=name;
       $('downloadResultInfo').textContent=`${name} · ${size(blob.size)}`;
       $('downloadResult').hidden=false;mediaPreview($('downloadPreview'),blob,state.blobUrl);
+      window.FileForgeResults?.add({blob,name,kind:'download'});
       window.FileForgeAddDownloadHistory?.({kind:'download',name,output:name,time:Date.now(),before:0,after:blob.size});
       status(tr('ready'));
     }catch(error){

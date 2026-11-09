@@ -398,6 +398,7 @@
       const anchor=document.createElement('a');anchor.href=url;anchor.download=output.name;
       anchor.className='download-button';anchor.textContent=t('downloadFile')+' · '+output.name+' ('+size(blob.size)+')';
       $('pdfDownloads').append(anchor);
+      window.FileForgeResults?.add({blob,name:output.name,kind:'pdf'});
       window.FileForgeAddPdfHistory?.({kind:'pdf',output:output.name,name:output.name,time:Date.now(),before:0,after:blob.size,pages:output.pages});
     }
     $('pdfResults').hidden=false;setStatus(t('generated'));

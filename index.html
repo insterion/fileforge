@@ -11,29 +11,31 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
-  <link rel="manifest" href="./manifest.webmanifest?v=1.3.0">
-  <link rel="stylesheet" href="./styles.css?v=1.3.0">
-  <title>FileForge 1.3</title>
-  <script src="./app.js?v=1.3.0" defer></script>
-  <script src="./pdf-studio.js?v=1.3.0" defer></script>
-  <script src="./jszip.min.js?v=1.3.0" defer></script>
-  <script src="./archive-studio.js?v=1.3.0" defer></script>
-  <script src="./library.js?v=1.3.0" defer></script>
-  <script src="./batch-studio.js?v=1.3.0" defer></script>
-  <script src="./audio-studio.js?v=1.3.0" defer></script>
-  <script src="./video-studio.js?v=1.3.0" defer></script>
-  <script src="./downloads-studio.js?v=1.3.0" defer></script>
-  <script src="./health.js?v=1.3.0" defer></script>
-  <script src="./file-desk.js?v=1.3.0" defer></script>
+  <link rel="manifest" href="./manifest.webmanifest?v=1.4.0">
+  <link rel="stylesheet" href="./styles.css?v=1.4.0">
+  <title>FileForge 1.4</title>
+  <script src="./app.js?v=1.4.0" defer></script>
+  <script src="./results.js?v=1.4.0" defer></script>
+  <script src="./pdf-studio.js?v=1.4.0" defer></script>
+  <script src="./jszip.min.js?v=1.4.0" defer></script>
+  <script src="./archive-studio.js?v=1.4.0" defer></script>
+  <script src="./library.js?v=1.4.0" defer></script>
+  <script src="./batch-studio.js?v=1.4.0" defer></script>
+  <script src="./audio-studio.js?v=1.4.0" defer></script>
+  <script src="./video-studio.js?v=1.4.0" defer></script>
+  <script src="./downloads-studio.js?v=1.4.0" defer></script>
+  <script src="./health.js?v=1.4.0" defer></script>
+  <script src="./file-desk.js?v=1.4.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Navigation">
-      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>1.2</small></span></div>
+      <div class="brand"><span class="brand-mark">F<span>◆</span></span><span class="brand-name">FileForge <small>1.4</small></span></div>
       <div class="side-label" data-i18n="workspace">РАБОТНО ПРОСТРАНСТВО</div>
       <nav class="side-nav" aria-label="Main">
         <button class="nav-button active" data-nav="home"><span class="nav-emoji">⌂</span><span data-i18n="navHome">Начало</span></button>
         <button class="nav-button" data-nav="tools"><span class="nav-emoji">▦</span><span data-i18n="navTools">Инструменти</span></button>
+        <button class="nav-button" data-nav="results"><span class="nav-emoji">📂</span><span data-i18n="navResults">Готови</span></button>
         <button class="nav-button" data-nav="history"><span class="nav-emoji">◷</span><span data-i18n="navHistory">История</span></button>
         <button class="nav-button" data-nav="settings"><span class="nav-emoji">⚙</span><span data-i18n="navSettings">Настройки</span></button>
       </nav>
@@ -68,6 +70,7 @@
           </div>
           <button id="installHome" class="secondary-button install-action" type="button" data-i18n="installButton">Инсталирай</button>
         </section>
+        <section class="ff-results-intro"><div><strong data-results-i18n="homeTitle">📂 Готови файлове</strong><p data-results-i18n="homeHelp">Всички нови резултати на едно място — до затваряне на приложението.</p></div><button type="button" class="secondary-button" id="resultsHome" data-results-i18n="open">Отвори резултатите →</button></section>
         <section class="ff-desk-intro">
           <div><strong data-desk-i18n="title">File Desk — отвори файл</strong><p data-desk-i18n="intro">Избери файл и FileForge ще предложи подходящия инструмент. Оригиналът остава непроменен.</p></div>
           <button class="primary-button" type="button" id="fileDeskHome" data-desk-i18n="choose">＋ Избери файл</button>
@@ -426,6 +429,17 @@
         </div>
       </section>
 
+      <section class="page" id="page-results" hidden>
+        <div class="editor-head"><div><span class="eyebrow">RESULTS SHELF</span><h2 data-results-i18n="title">Готови файлове</h2><p data-results-i18n="subtitle">Прегледай, изтегли отново или сподели резултатите.</p></div><button id="resultsClear" type="button" class="secondary-button" data-results-i18n="clear">Изчисти списъка</button></div>
+        <div class="ff-result-summary"><span id="resultsCount">0 файла</span><span class="status-tag ready" data-results-i18n="session">Само за тази сесия</span></div>
+        <p class="ff-result-notice" data-results-i18n="note">Файловете се пазят само в паметта на текущата сесия. При затваряне или презареждане изчезват от този списък. Изтегли важните резултати сега. Историята не съдържа самите файлове.</p>
+        <p id="resultsSkipped" class="ff-result-warning" data-results-i18n="tooBig" hidden>Някои големи резултати не се добавят тук, за да не се претоварва телефонът. Изтегли ги от съответния инструмент.</p>
+        <div id="resultsList" class="ff-results-list"></div>
+        <div id="resultsEmpty" class="ff-empty-list" data-results-i18n="empty">Все още няма готови файлове. Обработи снимка, PDF, ZIP, аудио или видео.</div>
+        <div id="resultsPreview" class="ff-result-preview" hidden></div>
+        <p id="resultsStatus" role="status" aria-live="polite" class="pdf-status"></p>
+      </section>
+
       <section class="page" id="page-history" hidden>
         <div class="section-heading"><div><h2 data-i18n="historyTitle">Последни операции</h2><p data-i18n="historyDesc">История само с метаданни на това устройство.</p></div><button class="secondary-button" id="clearHistory" type="button" data-i18n="clearHistory">Изчисти историята</button></div>
         <div class="ff-history-controls">
@@ -442,7 +456,7 @@
         <div class="settings-list"><label class="setting-row"><div><strong data-i18n="appearance">Външен вид</strong><small data-i18n="appearanceDesc">Избирай между светла, тъмна и системна тема</small></div><select id="themeSetting"><option value="system" data-i18n="system">Системна</option><option value="dark" data-i18n="dark">Тъмна</option><option value="light" data-i18n="light">Светла</option></select></label>
         <label class="setting-row"><div><strong data-i18n="language">Език</strong><small data-i18n="languageDesc">Език на интерфейса</small></div><select id="languageSetting"><option value="bg">Български</option><option value="en">English</option></select></label>
         <div class="setting-row"><div><strong data-i18n="privacy">Поверителност</strong><small data-i18n="privacySettings">Снимките се обработват локално. Историята е само на това устройство.</small></div><span class="status-tag ready">LOCAL</span></div>
-        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 1.3.0 · PWA</small></div><span>1.3.0</span></div></div>
+        <div class="setting-row"><div><strong data-i18n="version">Версия</strong><small>FileForge 1.4.0 · PWA</small></div><span>1.4.0</span></div></div>
         <section class="install-settings">
           <div class="install-settings-head"><div><h3 data-i18n="pwaSettingsTitle">PWA инсталация</h3><p data-i18n="pwaSettingsDesc">Проверка на условията и инструкции за Android Chrome.</p></div><button id="installSettingsButton" class="primary-button" type="button" data-i18n="installButton">Инсталирай</button></div>
           <p id="installStatus" class="install-status" aria-live="polite"></p>
@@ -472,12 +486,13 @@
           <p class="ff-health-footnote" data-health-i18n="healthNote">JSON архивът пази история и любими, но не самите файлове. Защитата на паметта се разрешава от браузъра и не замества Backup. PDF Studio може да изисква интернет при първо зареждане.</p>
         </section>
       </section>
-      <footer class="footer">FileForge 1.3 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
+      <footer class="footer">FileForge 1.4 <span>·</span> <span data-i18n="footer">Made for your files, not your data.</span></footer>
     </main>
 
     <nav class="bottom-nav" aria-label="Mobile navigation">
       <button class="mobile-nav active" data-nav="home"><span>⌂</span><small data-i18n="navHome">Начало</small></button>
       <button class="mobile-nav" data-nav="tools"><span>▦</span><small data-i18n="navTools">Инструменти</small></button>
+      <button class="mobile-nav" data-nav="results"><span>📂</span><small data-i18n="navResults">Готови</small></button>
       <button class="mobile-nav" data-nav="history"><span>◷</span><small data-i18n="navHistory">История</small></button>
       <button class="mobile-nav" data-nav="settings"><span>⚙</span><small data-i18n="navSettings">Настройки</small></button>
     </nav>

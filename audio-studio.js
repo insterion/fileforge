@@ -162,6 +162,7 @@
       const blob=new Blob([buffer],{type:'audio/wav'});
       const name=sanitize($('audioOutputName').value)+'.wav';
       state.downloadUrl=URL.createObjectURL(blob);$('audioDownload').href=state.downloadUrl;$('audioDownload').download=name;
+      window.FileForgeResults?.add({blob,name,kind:'audio'});
       $('audioResultDescription').textContent=`${name} · ${(frames/rate).toFixed(1)} s · ${sizeText(blob.size)} · PCM 16-bit`;
       $('audioResults').hidden=false;msg(tr('done'));
       window.FileForgeAddAudioHistory?.({kind:'audio',name:state.file.name,output:name,time:Date.now(),before:state.file.size,after:blob.size,duration:round(frames/rate)});

@@ -110,6 +110,7 @@
     const a=document.createElement('a');a.className='download-button';a.href=url;a.download=filename;
     a.textContent=`${t('download')} · ${filename} (${size(blob.size)})`;
     $('archiveDownloads').append(a);
+    window.FileForgeResults?.add({blob,name:filename,kind:'download'});
   }
   function displayResult(){ $('archiveResults').hidden=false; }
   function messageEmpty(text){const div=document.createElement('div');div.className='pdf-empty';div.textContent=text;return div;}

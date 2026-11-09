@@ -117,6 +117,7 @@
     if(!blob||!blob.size)throw Error('Empty export');
     revoke(prop);state[prop]=URL.createObjectURL(blob);$(block).hidden=false;
     $(img).src=state[prop];$(link).href=state[prop];$(link).download=name;
+    window.FileForgeResults?.add({blob,name,kind:'image'});
     window.FileForgeAddVideoHistory?.({kind:'video',name:state.file.name,output:name,time:Date.now(),before:state.file.size,after:blob.size,width:video().videoWidth,height:video().videoHeight,duration:0});
   }
   async function loadFile(file){
@@ -280,6 +281,7 @@
       const name=`${baseName()}-${outputMode}-${range.start.toFixed(1)}-${range.end.toFixed(1)}.webm`;
       $('videoClipDownload').href=state.clipUrl;
       $('videoClipDownload').download=name;
+      window.FileForgeResults?.add({blob,name,kind:audioOnly?'audio':'video'});
       $('videoClipOutputInfo').textContent=`${audioOnly?'WebM / Opus':'WebM / VP8'+(outputMode==='with-audio'?' + Opus':'')} · ${size(blob.size)} · ${(range.end-range.start).toFixed(1)} s`;
       window.FileForgeAddVideoHistory?.({kind:audioOnly?'audio':'video',name:state.file.name,output:name,time:Date.now(),before:state.file.size,after:blob.size,width:canvas?.width||0,height:canvas?.height||0,duration:range.end-range.start});
       note('clipReady');

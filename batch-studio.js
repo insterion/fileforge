@@ -90,6 +90,7 @@
       resultUrl=URL.createObjectURL(blob);
       const name=`fileforge-batch-${new Date().toISOString().slice(0,10)}.zip`;
       const link=$('batchDownload');link.href=resultUrl;link.download=name;
+      window.FileForgeResults?.add({blob,name,kind:'batch'});
       $('batchSummaryText').textContent=`${tr('finished')}: ${good} · ${tr('skipped')}: ${bad} · ZIP: ${bytes(blob.size)}`;
       $('batchResults').hidden=false;status(`${tr('finished')}: ${good}; ${tr('skipped')}: ${bad}`);
       window.FileForgeAddBatchHistory?.({kind:'batch',name:`${good} images`,output:name,time:Date.now(),files:good,before:totalBytes,after:blob.size});

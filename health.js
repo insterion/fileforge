@@ -2,11 +2,11 @@
 /* FileForge 1.2 — local PWA health, updates and storage safety.
    Never reads personal file content, upload URLs or history entries. */
 (() => {
-  const VERSION='1.3.0';
+  const VERSION='1.4.0';
   const CACHE='fileforge-shell-'+VERSION;
   const SHELL=['index.html','styles.css','app.js','pdf-studio.js','archive-studio.js','jszip.min.js',
     'library.js','batch-studio.js','audio-studio.js','video-studio.js','downloads-studio.js',
-    'health.js','file-desk.js','manifest.webmanifest','icon-192.png','icon-512.png'];
+    'health.js','file-desk.js','results.js','manifest.webmanifest','icon-192.png','icon-512.png'];
   const $=id=>document.getElementById(id);
   const dictionary={
     bg:{healthTitle:'🔧 Състояние и поддръжка',healthDesc:'Offline проверка, актуализации и локални данни — само от телефона.',
