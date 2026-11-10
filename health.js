@@ -1,8 +1,8 @@
 'use strict';
-/* FileForge 1.2 — local PWA health, updates and storage safety.
+/* FileForge 1.5 — local PWA health, updates and storage safety.
    Never reads personal file content, upload URLs or history entries. */
 (() => {
-  const VERSION='1.4.0';
+  const VERSION='1.5.0';
   const CACHE='fileforge-shell-'+VERSION;
   const SHELL=['index.html','styles.css','app.js','pdf-studio.js','archive-studio.js','jszip.min.js',
     'library.js','batch-studio.js','audio-studio.js','video-studio.js','downloads-studio.js',
