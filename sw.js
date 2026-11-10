@@ -1,5 +1,5 @@
-// FileForge 1.6.0 — safe offline update from 1.4, no user files in Cache Storage.
-const VERSION='1.6.0';
+// FileForge 1.7.0 — offline update with safer File Desk routing, no user files in Cache Storage.
+const VERSION='1.7.0';
 const CACHE='fileforge-shell-'+VERSION;
 const FILES=[
   './','./index.html','./styles.css','./app.js','./pdf-studio.js','./archive-studio.js',
@@ -65,9 +65,9 @@ self.addEventListener('fetch',event=>{
   if(!APP_FILES.has(name))return;
   event.respondWith((async()=>{
     const cache=await caches.open(CACHE);
-    // index.html in v1.4 references ?v=1.4.0. Serve the updated v1.6
-    // Results and Health modules from the verified new shell regardless of query.
-    if(name==='results.js'||name==='health.js'){
+    // Older index.html may reference ?v=1.4.0. Serve updated modules from
+    // the current shell regardless of their versioned query strings.
+    if(name==='results.js'||name==='health.js'||name==='file-desk.js'){
       const fresh=await cache.match('./'+name);
       if(fresh)return fresh;
     }
